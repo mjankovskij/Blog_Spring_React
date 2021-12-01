@@ -1,0 +1,32 @@
+<div th:fragment="info-form" th:remove="tag" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+    <form class="form-blog-create" sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{/blog/create}" th:object="${newBlog}" method="post" >
+        <input type="hidden"
+               class="form-control"
+               th:field="*{id}">
+        <div class="mb-3">
+            <label class="form-label" th:text="#{lt.blog.title}"></label>
+            <input type="text"
+                   class="form-control"
+                   th:field="*{title}"
+                   th:classappend="${#fields.hasErrors('title')} ? 'is-invalid' : (${newBlog.title ne null} ? 'is-valid' : '')">
+            <ul th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+                <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+            </ul>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" th:text="#{lt.blog.description}"></label>
+            <textarea class="form-control"
+                      rows="3"
+                      th:field="*{description}"
+                      th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : (${newBlog.description ne null} ? 'is-valid' : '')">
+            </textarea>
+            <ul th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+            </ul>
+        </div>
+        <div th:if="${success != null}" class="alert alert-success p-1">
+            <span th:text="${success}"></span>
+        </div>
+        <button type="submit" class="btn btn-primary col-2"  th:text="#{lt.blog.save}"></button>
+    </form>
+</div>
