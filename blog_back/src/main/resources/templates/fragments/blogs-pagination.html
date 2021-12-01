@@ -1,0 +1,37 @@
+<div th:fragment="pagination" th:remove="tag" xmlns:th="http://thymeleaf.org">
+    <div th:fragment="paginator(blogs)" class="row mt-2" th:if="${!#lists.isEmpty(blogs.content)}">
+        <div class="col-2"></div>
+        <div class="col-8 pages-nums">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"
+                        th:classappend="${blogs.number eq 0 ? 'disabled' : ''}">
+                        <a class="page-link"
+                           aria-label="Previous"
+                           th:href="@{/(page=${blogs.number})}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"
+                        th:each="pageNumb: ${#numbers.sequence(0, blogs.totalPages - 1)}"
+                        th:classappend="${pageNumb eq blogs.number ? 'active' : ''}">
+                        <a class="page-link"
+                           th:href="@{/(page=${pageNumb})}"
+                           th:text="${pageNumb} + 1"></a>
+                    </li>
+                    <li class="page-item"
+                        th:classappend="${blogs.number eq blogs.totalPages - 1 ? 'disabled': ''}">
+                        <a class="page-link"
+                           aria-label="Next"
+                           th:href="@{/(page=${blogs.number} + 1)}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-2 text-end total-blogs">
+            <span th:text="#{lt.blog.totalBlogs}"></span>: <span th:text="${blogs.totalElements}"></span>
+        </div>
+    </div>
+</div>
