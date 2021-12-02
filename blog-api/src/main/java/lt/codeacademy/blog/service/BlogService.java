@@ -3,9 +3,6 @@ package lt.codeacademy.blog.service;
 import lt.codeacademy.blog.data.Blog;
 import lt.codeacademy.blog.exception.BlogNotFoundException;
 import lt.codeacademy.blog.repository.BlogRepository;
-import static org.springframework.data.crossstore.ChangeSetPersister.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,15 +22,15 @@ public class BlogService {
     }
 
     public void delete(UUID id) {
-        postRepository.deleteById(postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post not found.")).getId());
+        postRepository.deleteById(postRepository.findById(id).orElseThrow(() -> new BlogNotFoundException(id)).getId());
     }
 
-    public List<Blog> getAll() {
+    public List<Blog> findAll() {
         return postRepository.findAll();
     }
 
     public Blog getById(UUID id) {
-        return postRepository.findById(id).orElseThrow(()-> new BlogNotFoundException(id));
+        return postRepository.findById(id).orElseThrow(() -> new BlogNotFoundException(id));
     }
 
 

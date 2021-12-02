@@ -1,5 +1,6 @@
 package lt.codeacademy.blog.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,10 +35,12 @@ public class Comment {
     @Column(nullable = false, updatable=false)
     private Date datetime;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "blog_id", nullable = false, updatable = false)
     private Blog blog;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;

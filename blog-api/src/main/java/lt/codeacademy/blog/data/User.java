@@ -1,5 +1,6 @@
 package lt.codeacademy.blog.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,17 +35,21 @@ public class User {
     private String username;
     @NotNull
     @NotBlank
+    @JsonIgnore
     @Size(min = 8, message = "Password should have min 8 characters")
     private String password;
     @Transient
     @NotBlank
+    @JsonIgnore
     private String passwordRepeat;
 
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    private Set<Blog> blogs;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Blog> blogs;
 
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    private Set<Comment> comments;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Role> roles;

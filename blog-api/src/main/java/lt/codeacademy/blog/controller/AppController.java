@@ -16,19 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class AppController {
 
-    private final BlogService blogService;
-
-    public AppController(BlogService blogService) {
-        this.blogService = blogService;
-    }
-
     @GetMapping
-    public String loadIndex(Model model, @PageableDefault(size = 5)
-    @SortDefault(sort = "datetime", direction = Sort.Direction.DESC) Pageable pageable) {
-//        model.addAttribute("blogs", blogService.getBlogs(pageable));
+    public String loadIndex(Model model) {
         model.addAttribute("newUser", new User());
-        model.addAttribute("newBlog", new Blog());
-        model.addAttribute("newComment", new Comment());
         return "index";
     }
 
