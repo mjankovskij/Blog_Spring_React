@@ -1,42 +1,67 @@
-import React from 'react';
-import ReactBootstrap, {Navbar, Nav, Container, Form, Button} from 'react-bootstrap'
+import React, { useCallback, useState } from 'react';
+import ReactBootstrap, {Navbar, Nav, Container, Form, Button} from 'react-bootstrap';
 
 export default class Blog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-                items: [],
-                DataisLoaded: false
+            blogs: [],
+            dataLoaded: false,
+            limit: 5
         }
     }
 
-    componentDidMount() {
+    loadMore = () =>{
+        if (window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight-10) {
+            this.setState({
+                limit: this.state.limit + 5
+            });
+            this.componentWillMount();
+        }
+    }
+
+    componentWillMount() {
+        window.addEventListener('scroll', this.loadMore);
         fetch(
-            "http://localhost:8080/api/blog/get")
+            "/api/blog/get")
             .then((res) => res.json())
             .then((json) => {
                 this.setState({
-                    items: json,
-                    DataisLoaded: true
+                    blogs: json.slice(0, this.state.limit),
+                    dataLoaded: true
                 });
             })
     }
 
+    async remove(id) {
+        if (window.confirm("Delete the blog?")) {
+            await fetch(`/api/blog/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(() => {
+                let blogs = [...this.state.blogs].filter(i => i.id !== id);
+                this.setState({blogs: blogs});
+            });
+        }
+    }
+
     render() {
-        const { DataisLoaded, items } = this.state;
-        console.log(DataisLoaded)
-        if (!DataisLoaded) return <div>
-            <h1> Pleses wait some time.... </h1> </div> ;
+        const {dataLoaded, blogs} = this.state;
+        if (!dataLoaded) return <></>;
         return (<main className="container">
                 {
-                    items.map((item) => (
-                        <div className="card mt-4" key={ item.id }>
-                           <div className="card-header">
-                            <h3>{ item.title }</h3>
-                            Author: {item.user.username}<br/>
-                            {new Date(item.datetime).toISOString().slice(0, 10)} {new Date(item.datetime).toISOString().slice(11, 19)}
-                           </div>
-                            <div className="card-text p-3 text-justify">{ item.description }</div>
+                    blogs.map((blog) => (
+                        <div className="card mt-4" key={blog.id}>
+                            <Button size="sm" color="danger" onClick={() => this.remove(blog.id)}>Delete</Button>
+                            <div className="card-header">
+                                <h3>{blog.title}</h3>
+                                Author: {blog.user.username}<br/>
+                                {new Date(blog.datetime).toISOString().slice(0, 10)} {new Date(blog.datetime).toISOString().slice(11, 19)}
+                            </div>
+                            <div className="card-text p-3 text-justify">{blog.description}</div>
                         </div>
                     ))
                 }
