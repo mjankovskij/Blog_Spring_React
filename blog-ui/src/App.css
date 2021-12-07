@@ -40,3 +40,16 @@ header .navbar .nav-item:hover {
     text-align: justify;
     white-space: pre-line;
 }
+
+.invalid-feedback {
+    margin-bottom: -5px !important;
+}
+
+
+ul.invalid-feedback {
+margin-left: -15px;
+}
+
+.invalid-feedback li:first-letter {
+    text-transform: capitalize;
+}

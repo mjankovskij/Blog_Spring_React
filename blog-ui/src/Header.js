@@ -8,8 +8,8 @@ export default class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayAuth: false,
-            showLoginForm: true,
+            displayAuth: true,
+            showLoginForm: false,
         }
     }
 

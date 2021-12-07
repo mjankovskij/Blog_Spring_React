@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap';
 import Cookies from 'js-cookie';
 
 export default class Register extends React.Component {
-    emptyItem = {
+    emptyUser = {
         username: '',
         password: '',
         passwordRepeat: ''
@@ -12,7 +12,8 @@ export default class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: this.emptyItem
+            item: this.emptyUser,
+            errors: {}
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,15 +22,16 @@ export default class Register extends React.Component {
     handleChange(e) {
         const target = e.target;
         const value = target.value;
-        const id = target.id;
+        const name = target.name;
 
         let item = {...this.state.item};
-        item[id] = value;
+        item[name] = value;
         this.setState({item});
     }
 
     async handleSubmit(e) {
         e.preventDefault();
+        this.state.errors = {};
         const {item} = this.state;
         await fetch('/user/register', {
             method: 'POST',
@@ -38,10 +40,26 @@ export default class Register extends React.Component {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN')
             },
-            processData:false,
+            processData: false,
             body: JSON.stringify(item),
-        }).then((e) => {
-            console.log("resp", e)
+        }).then(response => {
+            if (!response.ok) {
+                response.json().then(json => {
+                    // this.fieldsSetValid();
+                    // let fields = this.state.fieldStatus;
+                    for (let key of Object.keys(json)) {
+                        console.log(key, json[key]);
+                        this.state.errors[key] = json[key];
+                    }
+                    this.setState({
+                        errors: this.state.errors
+                    });
+                });
+            } else {
+                this.setState({
+                    errors: {"": ""}
+                });
+            }
         });
     }
 
@@ -51,28 +69,49 @@ export default class Register extends React.Component {
                     <Form.Label>Username</Form.Label>
                     <Form.Control
                         type="text"
-                        id="username"
+                        name="username"
                         placeholder="Username"
-                        minLength="3"
-                        maxLength="20"
-                        required
+                        // minLength="3"
+                        // maxLength="20"
+                        // required
+                        className={this.state.errors.username ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
                     />
+                    {this.state.errors.username &&
+                    <ul className="invalid-feedback">
+                        {this.state.errors.username.map(err =>
+                            <li>{err}</li>
+                        )}
+                    </ul>}
                     <Form.Label className="mt-3">Password</Form.Label>
                     <Form.Control
                         type="password"
-                        id="password"
+                        name="password"
                         placeholder="Password"
-                        minLength="8"
-                        required
+                        // minLength="8"
+                        // required
+                        className={this.state.errors.password ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
                     />
+                    {this.state.errors.password &&
+                    <ul className="invalid-feedback">
+                        {this.state.errors.password.map(err =>
+                            <li>{err}</li>
+                        )}
+                    </ul>}
                     <Form.Label className="mt-3">Repeat password</Form.Label>
                     <Form.Control
                         type="password"
-                        id="passwordRepeat"
+                        name="passwordRepeat"
                         placeholder="Repeat password"
-                        minLength="8"
-                        required
-                        />
+                        // minLength="8"
+                        // required
+                        className={this.state.errors.passwordRepeat ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
+                    />
+                    {this.state.errors.passwordRepeat &&
+                    <ul className="invalid-feedback">
+                        {this.state.errors.passwordRepeat.map(err =>
+                            <li>{err}</li>
+                        )}
+                    </ul>}
                     <Button type="submit" className="btn btn-primary col-12 mt-3">Register</Button>
                 </Form>
             </>
