@@ -12,6 +12,7 @@ export default class Login extends React.Component {
         super(props);
         this.state = {
             item: this.emptyItem,
+            errors: {}
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,6 +30,7 @@ export default class Login extends React.Component {
 
     async handleSubmit(e) {
         e.preventDefault();
+        this.state.errors = {};
         const {item} = this.state;
         await fetch('/user/login', {
             method: 'POST',
@@ -38,11 +40,25 @@ export default class Login extends React.Component {
                 'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN')
             },
             body: JSON.stringify(item),
-        }).then((e) => {
-            console.log("resp", e)
+        }).then(response => {
+            if (!response.ok) {
+                response.json().then(json => {
+                    for (let key of Object.keys(json)) {
+                        console.log(key, json[key]);
+                        this.state.errors[key] = json[key];
+                    }
+                    this.setState({
+                        errors: this.state.errors
+                    });
+                });
+            } else {
+                this.setState({
+                    errors: {"": ""}
+                });
+                window.location.reload();
+            }
         });
     }
-
 
     render() {
         return (<>
@@ -55,6 +71,7 @@ export default class Login extends React.Component {
                         minLength="3"
                         maxLength="20"
                         required
+                        className={this.state.errors.password ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
                     />
                     <Form.Label className="mt-3">Password</Form.Label>
                     <Form.Control
@@ -63,7 +80,12 @@ export default class Login extends React.Component {
                         placeholder="Password"
                         minLength="8"
                         required
+                        className={this.state.errors.password ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
                     />
+                    {this.state.errors.password &&
+                    <ul className="invalid-feedback login">
+                        {this.state.errors.password.map((err, i) => <li key={i}>{err}</li>)}
+                    </ul>}
                     <Button type="submit" className="btn btn-primary col-12 mt-3">Login</Button>
                 </Form>
             </>

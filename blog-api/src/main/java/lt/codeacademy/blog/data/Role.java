@@ -19,6 +19,7 @@ public class Role {
     @GeneratedValue
     @Column(columnDefinition = "VARCHAR(36)", updatable = false)
     @Type(type="uuid-char")
+    @JsonIgnore
     private UUID id;
     private String name;
 

@@ -11,7 +11,7 @@ header .navbar .nav-item {
     color: #c7c7c7;
 }
 
-header .navbar .nav-item:hover {
+header .navbar .nav-item svg:hover {
     color: #fff;
 }
 

@@ -1,16 +1,39 @@
 import React from 'react';
 import {Navbar, Nav, Container, Button} from 'react-bootstrap';
-import {LockFill} from 'react-bootstrap-icons';
+import {LockFill, BoxArrowInRight} from 'react-bootstrap-icons';
 import Login from './Login';
 import Register from './Register';
+import Logout from './Logout';
 
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayAuth: true,
-            showLoginForm: false,
+            displayAuth: false,
+            showLoginForm: true,
+            user: ''
         }
+    }
+
+    async componentDidMount() {
+        await fetch('/user/get', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                response.json().then(json => {
+                    console.log(json)
+                    this.setState({
+                        user: json
+                    });
+                });
+            }
+        });
     }
 
     authShowHideEvent() {
@@ -31,11 +54,19 @@ export default class Header extends React.Component {
                     <Container className="position-relative">
                         <Navbar.Brand href="/">Blog</Navbar.Brand>
                         <Nav className="d-inline-block text-end">
-                            <Nav.Item onClick={() => this.authShowHideEvent()}
+                            {this.state.user.username ?
+                                <Nav.Item
+                                    className="d-inline-block"
+                                    href="#auth">
+                                    Sveiki, {this.state.user.username}
+                                    <Logout/>
+                                </Nav.Item>
+                                :
+                                <Nav.Item onClick={() => this.authShowHideEvent()}
                                       className="d-inline-block"
                                       href="#auth">
                                 <LockFill/>
-                            </Nav.Item>
+                            </Nav.Item>}
                         </Nav>
                         {this.state.displayAuth === true && (
                             <div

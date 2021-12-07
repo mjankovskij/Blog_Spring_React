@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap';
 import Cookies from 'js-cookie';
 
 export default class Register extends React.Component {
-    emptyUser = {
+    emptyItem = {
         username: '',
         password: '',
         passwordRepeat: ''
@@ -12,7 +12,7 @@ export default class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: this.emptyUser,
+            item: this.emptyItem,
             errors: {}
         };
         this.handleChange = this.handleChange.bind(this);
@@ -45,8 +45,6 @@ export default class Register extends React.Component {
         }).then(response => {
             if (!response.ok) {
                 response.json().then(json => {
-                    // this.fieldsSetValid();
-                    // let fields = this.state.fieldStatus;
                     for (let key of Object.keys(json)) {
                         console.log(key, json[key]);
                         this.state.errors[key] = json[key];
@@ -78,39 +76,33 @@ export default class Register extends React.Component {
                     />
                     {this.state.errors.username &&
                     <ul className="invalid-feedback">
-                        {this.state.errors.username.map(err =>
-                            <li>{err}</li>
-                        )}
+                        {this.state.errors.username.map((err, i) => <li key={i}>{err}</li>)}
                     </ul>}
                     <Form.Label className="mt-3">Password</Form.Label>
                     <Form.Control
                         type="password"
                         name="password"
                         placeholder="Password"
-                        // minLength="8"
-                        // required
+                        minLength="8"
+                        required
                         className={this.state.errors.password ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
                     />
                     {this.state.errors.password &&
                     <ul className="invalid-feedback">
-                        {this.state.errors.password.map(err =>
-                            <li>{err}</li>
-                        )}
+                        {this.state.errors.password.map((err, i) => <li key={i}>{err}</li>)}
                     </ul>}
                     <Form.Label className="mt-3">Repeat password</Form.Label>
                     <Form.Control
                         type="password"
                         name="passwordRepeat"
                         placeholder="Repeat password"
-                        // minLength="8"
-                        // required
+                        minLength="8"
+                        required
                         className={this.state.errors.passwordRepeat ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
                     />
                     {this.state.errors.passwordRepeat &&
                     <ul className="invalid-feedback">
-                        {this.state.errors.passwordRepeat.map(err =>
-                            <li>{err}</li>
-                        )}
+                        {this.state.errors.passwordRepeat.map((err, i) => <li key={i}>{err}</li>)}
                     </ul>}
                     <Button type="submit" className="btn btn-primary col-12 mt-3">Register</Button>
                 </Form>
