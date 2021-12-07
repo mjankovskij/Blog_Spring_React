@@ -4,10 +4,13 @@ import lt.codeacademy.blog.data.Role;
 import lt.codeacademy.blog.data.User;
 import lt.codeacademy.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -23,26 +26,24 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public String processRegister(@Valid @ModelAttribute("newUser") User user,
-                                  BindingResult result,
-                                  HttpServletRequest request) {
-        if (result.hasErrors()) {
-            return "fragments/register-form :: info-form";
-        }
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        String passPlain = user.getPassword();
-        user.setPassword(encodedPassword);
-        user.setPasswordRepeat(encodedPassword);
-        Set<Role> setOfRoles = new HashSet<>();
-        setOfRoles.add(new Role("ROLE_USER", user));
-        user.setRoles(setOfRoles);
-        userService.save(user);
-        try {
-            request.login(user.getUsername(), passPlain);
-        } catch (ServletException ignore) {
-        }
-        return "fragments/register-form :: info-success";
+    public ResponseEntity<?> processRegister(@RequestBody User user, Errors errors) {
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getPasswordRepeat());
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String encodedPassword = passwordEncoder.encode(user.getPassword());
+//        String passPlain = user.getPassword();
+//        user.setPassword(encodedPassword);
+//        user.setPasswordRepeat(encodedPassword);
+//        Set<Role> setOfRoles = new HashSet<>();
+//        setOfRoles.add(new Role("ROLE_USER", user));
+//        user.setRoles(setOfRoles);
+//        userService.save(user);
+//        try {
+//            request.login(user.getUsername(), passPlain);
+//        } catch (ServletException ignore) {
+//        }
+        return ResponseEntity.status(200).body(errors);
     }
 
     @PostMapping(value = "/login")

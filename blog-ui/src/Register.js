@@ -1,49 +1,82 @@
-import React, {useRef, useState} from "react";
+import React from "react";
 import {Form, Button} from 'react-bootstrap';
-import {logDOM} from "@testing-library/react";
+import Cookies from 'js-cookie';
 
-    export default (Register) => {
+export default class Register extends React.Component {
+    emptyItem = {
+        username: '',
+        password: '',
+        passwordRepeat: ''
+    };
 
-        const [username, setUsername] = useState('');
-        const [password, setPassword] = useState('');
-        const [passwordRepeat, setPasswordRepeat] = useState('');
+    constructor(props) {
+        super(props);
+        this.state = {
+            item: this.emptyItem
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-        const usernameRef = useRef('');
-        const passwordRef = useRef('');
-        const passwordRepeatRef = useRef('');
+    handleChange(e) {
+        const target = e.target;
+        const value = target.value;
+        const id = target.id;
 
-        const process = (e) => {
-            e.preventDefault();
-            setUsername(usernameRef.current.value);
-            setPassword(passwordRef.current.value);
-            setPasswordRepeat(passwordRepeatRef.current.value);
+        let item = {...this.state.item};
+        item[id] = value;
+        this.setState({item});
+    }
 
-            console.log(username)
-            // await fetch(`/user/register`, {
-            //     method: 'DELETE',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     data:{
-            //         username:
-            //     }
-            // }).then((e) => {
-            //     console.log(e)
-            // });
-        }
+    async handleSubmit(e) {
+        e.preventDefault();
+        const {item} = this.state;
+        await fetch('/user/register', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN')
+            },
+            processData:false,
+            body: JSON.stringify(item),
+        }).then((e) => {
+            console.log("resp", e)
+        });
+    }
 
+    render() {
         return (<>
-                <Form onSubmit={process}>
+                <Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                     <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" placeholder="Username" ref={usernameRef}/>
+                    <Form.Control
+                        type="text"
+                        id="username"
+                        placeholder="Username"
+                        minLength="3"
+                        maxLength="20"
+                        required
+                    />
                     <Form.Label className="mt-3">Password</Form.Label>
-                    <Form.Control type="text" placeholder="Password" ref={passwordRef}/>
+                    <Form.Control
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        minLength="8"
+                        required
+                    />
                     <Form.Label className="mt-3">Repeat password</Form.Label>
-                    <Form.Control type="text" placeholder="Repeat password" ref={passwordRepeatRef}/>
+                    <Form.Control
+                        type="password"
+                        id="passwordRepeat"
+                        placeholder="Repeat password"
+                        minLength="8"
+                        required
+                        />
                     <Button type="submit" className="btn btn-primary col-12 mt-3">Register</Button>
                 </Form>
             </>
         )
+    }
 }
 

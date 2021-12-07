@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import ReactBootstrap, {Navbar, Nav, Container, Form, Button} from 'react-bootstrap';
+import React from 'react';
+import { Card, Button } from 'react-bootstrap';
 
 export default class Blog extends React.Component {
     constructor(props) {
@@ -16,11 +16,11 @@ export default class Blog extends React.Component {
             this.setState({
                 limit: this.state.limit + 5
             });
-            this.componentWillMount();
+            this.componentDidMount();
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         window.addEventListener('scroll', this.loadMore);
         fetch(
             "/api/blog/get")
@@ -54,15 +54,15 @@ export default class Blog extends React.Component {
         return (<main className="container">
                 {
                     blogs.map((blog) => (
-                        <div className="card mt-4" key={blog.id}>
+                        <Card className="mt-4" key={blog.id}>
                             <Button size="sm" color="danger" onClick={() => this.remove(blog.id)}>Delete</Button>
-                            <div className="card-header">
+                            <Card.Header>
                                 <h3>{blog.title}</h3>
                                 Author: {blog.user.username}<br/>
                                 {new Date(blog.datetime).toISOString().slice(0, 10)} {new Date(blog.datetime).toISOString().slice(11, 19)}
-                            </div>
+                            </Card.Header>
                             <div className="card-text p-3 text-justify">{blog.description}</div>
-                        </div>
+                        </Card>
                     ))
                 }
             </main>

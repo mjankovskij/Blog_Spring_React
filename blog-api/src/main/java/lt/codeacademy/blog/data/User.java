@@ -1,6 +1,7 @@
 package lt.codeacademy.blog.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,13 +36,31 @@ public class User {
     private String username;
     @NotNull
     @NotBlank
-    @JsonIgnore
     @Size(min = 8, message = "Password should have min 8 characters")
     private String password;
     @Transient
     @NotBlank
-    @JsonIgnore
     private String passwordRepeat;
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @JsonIgnore
+    public String getPasswordRepeat() {
+        return passwordRepeat;
+    }
+
+    @JsonProperty
+    public void setPasswordRepeat(String passwordRepeat) {
+        this.passwordRepeat = passwordRepeat;
+    }
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
