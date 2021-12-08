@@ -1,39 +1,17 @@
 import React from 'react';
 import {Navbar, Nav, Container, Button} from 'react-bootstrap';
-import {LockFill, BoxArrowInRight} from 'react-bootstrap-icons';
-import Login from './Login';
-import Register from './Register';
-import Logout from './Logout';
+import {LockFill} from 'react-bootstrap-icons';
+import Login from './user/Login';
+import Register from './user/Register';
+import Logout from './user/Logout';
 
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             displayAuth: false,
-            showLoginForm: true,
-            user: ''
+            showLoginForm: true
         }
-    }
-
-    async componentDidMount() {
-        await fetch('/user/get', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-
-            const contentType = response.headers.get("content-type");
-            if (contentType && contentType.indexOf("application/json") !== -1) {
-                response.json().then(json => {
-                    console.log(json)
-                    this.setState({
-                        user: json
-                    });
-                });
-            }
-        });
     }
 
     authShowHideEvent() {
@@ -54,11 +32,11 @@ export default class Header extends React.Component {
                     <Container className="position-relative">
                         <Navbar.Brand href="/">Blog</Navbar.Brand>
                         <Nav className="d-inline-block text-end">
-                            {this.state.user.username ?
+                            {this.props.user.username ?
                                 <Nav.Item
                                     className="d-inline-block"
                                     href="#auth">
-                                    Sveiki, {this.state.user.username}
+                                    Sveiki, {this.props.user.username}
                                     <Logout/>
                                 </Nav.Item>
                                 :

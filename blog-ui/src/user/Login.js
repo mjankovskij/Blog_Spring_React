@@ -1,12 +1,11 @@
-import React from "react";
+import React from 'react';
 import {Form, Button} from 'react-bootstrap';
 import Cookies from 'js-cookie';
 
-export default class Register extends React.Component {
+export default class Login extends React.Component {
     emptyItem = {
         username: '',
-        password: '',
-        passwordRepeat: ''
+        password: ''
     };
 
     constructor(props) {
@@ -33,14 +32,13 @@ export default class Register extends React.Component {
         e.preventDefault();
         this.state.errors = {};
         const {item} = this.state;
-        await fetch('/user/register', {
+        await fetch('/user/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN')
             },
-            processData: false,
             body: JSON.stringify(item),
         }).then(response => {
             if (!response.ok) {
@@ -57,27 +55,23 @@ export default class Register extends React.Component {
                 this.setState({
                     errors: {"": ""}
                 });
+                window.location.reload();
             }
         });
     }
 
     render() {
-        return (<>
-                <Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+        return (<Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                     <Form.Label>Username</Form.Label>
                     <Form.Control
                         type="text"
                         name="username"
                         placeholder="Username"
-                        // minLength="3"
-                        // maxLength="20"
-                        // required
-                        className={this.state.errors.username ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
+                        minLength="3"
+                        maxLength="20"
+                        required
+                        className={this.state.errors.password ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
                     />
-                    {this.state.errors.username &&
-                    <ul className="invalid-feedback">
-                        {this.state.errors.username.map((err, i) => <li key={i}>{err}</li>)}
-                    </ul>}
                     <Form.Label className="mt-3">Password</Form.Label>
                     <Form.Control
                         type="password"
@@ -88,25 +82,11 @@ export default class Register extends React.Component {
                         className={this.state.errors.password ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
                     />
                     {this.state.errors.password &&
-                    <ul className="invalid-feedback">
+                    <ul className="invalid-feedback login">
                         {this.state.errors.password.map((err, i) => <li key={i}>{err}</li>)}
                     </ul>}
-                    <Form.Label className="mt-3">Repeat password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        name="passwordRepeat"
-                        placeholder="Repeat password"
-                        minLength="8"
-                        required
-                        className={this.state.errors.passwordRepeat ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
-                    />
-                    {this.state.errors.passwordRepeat &&
-                    <ul className="invalid-feedback">
-                        {this.state.errors.passwordRepeat.map((err, i) => <li key={i}>{err}</li>)}
-                    </ul>}
-                    <Button type="submit" className="btn btn-primary col-12 mt-3">Register</Button>
+                    <Button type="submit" className="btn btn-primary col-12 mt-3">Login</Button>
                 </Form>
-            </>
         )
     }
 }

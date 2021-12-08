@@ -3,11 +3,16 @@ package lt.codeacademy.blog.controller;
 import static lt.codeacademy.blog.ApiPath.*;
 
 import lt.codeacademy.blog.data.Blog;
+import lt.codeacademy.blog.data.User;
 import lt.codeacademy.blog.service.BlogService;
+import lt.codeacademy.blog.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,9 +21,11 @@ import java.util.UUID;
 public class BlogController {
 
     private final BlogService blogService;
+    private final UserService userService;
 
-    public BlogController(BlogService blogService) {
+    public BlogController(BlogService blogService, UserService userService) {
         this.blogService = blogService;
+        this.userService = userService;
     }
 
     @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,7 +40,16 @@ public class BlogController {
 
     @PutMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveBlog(@RequestBody Blog blog) {
+    public void saveBlog(@Valid @RequestBody Blog blog) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+        blog.setUser(user);
+        blogService.save(blog);
+    }
+
+    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateBlog(@Valid @RequestBody Blog blog) {
         blogService.save(blog);
     }
 

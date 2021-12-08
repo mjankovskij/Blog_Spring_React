@@ -26,7 +26,7 @@ public class BlogService {
     }
 
     public List<Blog> findAll() {
-        return postRepository.findAll();
+        return postRepository.findAllByOrderByDatetimeDesc();
     }
 
     public Blog getById(UUID id) {

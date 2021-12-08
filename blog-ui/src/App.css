@@ -1,5 +1,5 @@
 body{
-    padding-top: 48px;
+    padding-top: 70px;
 }
 
 header{
@@ -36,6 +36,20 @@ header .navbar .nav-item svg:hover {
     cursor: pointer;
 }
 
+.card-header button{
+    margin-top: -10px;
+    padding: 0 5px 4px;
+    font-size: 18px;
+    float: right;
+    opacity: 0.3;
+    transition: 0.1s;
+}
+
+.card-header button:hover{
+    opacity: 1;
+    transform: scale(1.05);
+}
+
 .card-text{
     text-align: justify;
     white-space: pre-line;
@@ -52,4 +66,8 @@ margin-left: -15px;
 
 .invalid-feedback li:first-letter {
     text-transform: capitalize;
+}
+
+.success-response{
+    margin-bottom: 0 !important;
 }

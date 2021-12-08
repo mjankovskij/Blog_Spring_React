@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUser(){
+    public User getUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userService.findByUsername(auth.getName());
     }

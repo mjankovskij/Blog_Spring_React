@@ -1,5 +1,4 @@
 import React from 'react';
-import {Nav} from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import {BoxArrowInRight} from "react-bootstrap-icons";
 
