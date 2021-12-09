@@ -3,6 +3,7 @@ import {Card, Button} from 'react-bootstrap';
 import {Pencil, Trash} from 'react-bootstrap-icons';
 import BlogForm from "./BlogForm";
 import Cookies from 'js-cookie';
+import {Container} from '@mui/material';
 
 export default class Blog extends React.Component {
     blog = {
@@ -19,6 +20,11 @@ export default class Blog extends React.Component {
             dataLoaded: false,
             limit: 5
         }
+        this.handleReset = this.handleReset.bind(this)
+    }
+
+    handleReset() {
+        this.setState({blog: this.blog});
     }
 
     loadMore = () => {
@@ -44,7 +50,7 @@ export default class Blog extends React.Component {
     }
 
     dateTimeFormat(dateTime) {
-        return new Date(new Date(dateTime).getTime() - (new Date(dateTime).getTimezoneOffset() * 60000)).toISOString().replace('T', ' ').slice(0, 19)
+        return new Date(new Date(dateTime).getTime() - (new Date(dateTime).getTimezoneOffset() * 60000)).toISOString().replace('T', ' ').slice(0, 16)
     }
 
     edit(blog){
@@ -73,13 +79,13 @@ export default class Blog extends React.Component {
     render() {
         const {dataLoaded, blogs} = this.state;
         if (!dataLoaded) return <></>;
-        return (<main className="container">
+        return (<Container>
                 {this.props.user.username && this.props.user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0] &&
-                <BlogForm user={this.props.user} blog={this.state.blog}/>}
+                <BlogForm user={this.props.user} blog={{...this.state.blog}} handleReset = {this.handleReset}/>}
                 {
                     blogs.map((blog) => (
                         <Card className="mt-4" key={blog.id}>
-                            <Card.Header>
+                            <Card.Header id={blog.id}>
                                 <h3>{blog.title}</h3>
                                 Author: {blog.user.username}<br/>
                                 {this.dateTimeFormat(blog.datetime)}
@@ -96,7 +102,7 @@ export default class Blog extends React.Component {
                         </Card>
                     ))
                 }
-            </main>
+            </Container>
         )
     }
 }

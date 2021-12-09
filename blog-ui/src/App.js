@@ -12,7 +12,7 @@ export default class App extends React.Component {
         }
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         document.title = "Blog Spring & React";
         await fetch('/user/get', {
             method: 'GET',
@@ -35,8 +35,12 @@ export default class App extends React.Component {
     render() {
         return (
             <div className="App">
+                <header>
                 <Header user={this.state.user}/>
-                <Blog user={this.state.user}/>
+                </header>
+                <main>
+                    <Blog user={this.state.user}/>
+                </main>
             </div>
         );
     }

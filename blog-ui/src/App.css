@@ -3,10 +3,23 @@ body {
 }
 
 header {
-    /*z-index: 4;*/
+    z-index: 1 !important;
 }
 
+
+.card{
+    z-index: 0 !important;
+}
+
+.dark-screen {
+    background: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    z-index: 1 !important;
+}
+
+
 .auth-box{
+    z-index: 1 !important;
     margin-top: -30px !important;
     right: 0 !important;
     background: #fff;
@@ -22,20 +35,6 @@ header {
     }
 }
 
-.auth{
-    z-index: 99 !important;
-}
-
-.dark-screen {
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 0 !important;
-    cursor: pointer;
-}
-
-.card{
-    z-index: -1 !important;
-}
-
 header .navbar .nav-item {
     cursor: pointer;
     color: #c7c7c7;
@@ -48,7 +47,6 @@ header .navbar .nav-item svg:hover {
 .navbar {
     -webkit-box-shadow: 0 -2px 5px 5px #3c3c3c;
     box-shadow: 0 -2px 5px 5px #3c3c3c;
-    z-index: 3;
 }
 
 

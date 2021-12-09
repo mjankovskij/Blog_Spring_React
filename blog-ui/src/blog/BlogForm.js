@@ -1,17 +1,17 @@
 import React from 'react';
-import {Button, Form} from 'react-bootstrap';
 import Cookies from "js-cookie";
+import {Box, FormControl, Button, TextField, ThemeProvider, createTheme} from '@mui/material';
 
 export default class BlogForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             blog: this.props.blog,
-            errors: {},
-            created: false
+            errors: {}
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleReset = this.handleReset.bind(this);
     }
 
     static getDerivedStateFromProps(props, current_state) {
@@ -26,10 +26,10 @@ export default class BlogForm extends React.Component {
     handleChange(e) {
         const target = e.target;
         const value = target.value;
-        const name = target.name;
+        const id = target.id;
 
         let blog = this.state.blog;
-        blog[name] = value;
+        blog[id] = value;
         this.setState({blog: blog});
     }
 
@@ -62,48 +62,90 @@ export default class BlogForm extends React.Component {
                 });
                 setTimeout(() => window.location.reload(), 500);
             }
-        });
+        })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    handleReset(){
+        this.props.handleReset();
+        this.setState({errors: {}});
     }
 
     render() {
-        return (<Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                    // minLength="5"
-                    maxLength="100"
-                    required
-                    defaultValue={this.state.blog.title}
-                    className={this.state.errors.title ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
-                />
+        return (
+            <Box onChange={this.handleChange}
+                 sx={{
+                     mt: 2,
+                     p: 2,
+                     borderRadius: 1,
+                     border: "solid 1px #d5d5d5",
+                     backgroundColor: '#fcfcfc'
+                 }}
+            >
+                {this.state.blog.id ?
+                    <>
+                        <h3 style={{display: 'inline'}}>Update blog</h3>
+                        <span style={{color: '#999999', marginLeft: '10px'}}>
+                            #{this.state.blog.id}</span>
+                    </>
+                    :
+                    <h3>Create blog</h3>
+                }
+                <FormControl fullWidth color="colek">
+                    <TextField
+                        id="title"
+                        label="Title"
+                        variant="outlined"
+                        sx={{mt: 1.5, backgroundColor: '#fff'}}
+                        fullWidth
+                        value={this.state.blog.title}
+                        error={!!this.state.errors.title}
+                    />
+                </FormControl>
                 {this.state.errors.title &&
-                <ul className="invalid-feedback login">
+                <ul className="invalid-helper">
                     {this.state.errors.title.map((err, i) => <li key={i}>{err}</li>)}
                 </ul>}
-                <Form.Label className="mt-3">Description</Form.Label>
-                <Form.Control
-                    as="textarea"
-                    rows={3}
-                    name="description"
-                    placeholder="Description"
-                    // minLength="50"
-                    required
-                    defaultValue={this.state.blog.description}
-                    className={this.state.errors.description ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
-                />
+                <FormControl fullWidth>
+                    <TextField
+                        id="description"
+                        label="Description"
+                        variant="outlined"
+                        multiline
+                        rows={5}
+                        sx={{mt: 1.5, backgroundColor: '#fff'}}
+                        fullWidth
+                        value={this.state.blog.description}
+                        error={!!this.state.errors.description}
+                    />
+                </FormControl>
                 {this.state.errors.description &&
-                <ul className="invalid-feedback login">
+                <ul className="invalid-helper">
                     {this.state.errors.description.map((err, i) => <li key={i}>{err}</li>)}
                 </ul>}
+
                 {this.state.created &&
                 <div className="alert alert-success p-1 mt-3 success-response">
                     Blog saved successfully.
                 </div>}
-                <Button type="submit" className="btn btn-primary col-12 mt-3">Save</Button>
-            </Form>
+                <Button type="submit"
+                        variant="contained"
+                        sx={{mt: 1.5}}
+                        onClick={this.handleSubmit}
+                >
+                    {this.state.blog.id ? "Update" : "Create"}
+                </Button>
+                <Button type="submit"
+                        variant="contained"
+                        sx={{mt: 1.5, ml: 2}}
+                        color="inherit"
+                        onClick={this.handleReset}
+                >
+                    Reset
+                </Button>
+            </Box>
         )
     }
 }
-
