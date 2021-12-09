@@ -1,6 +1,6 @@
 import React from "react";
-import {Form, Button} from 'react-bootstrap';
 import Cookies from 'js-cookie';
+import {Box, FormControl, Button, TextField} from '@mui/material';
 
 export default class Register extends React.Component {
     emptyItem = {
@@ -22,10 +22,10 @@ export default class Register extends React.Component {
     handleChange(e) {
         const target = e.target;
         const value = target.value;
-        const name = target.name;
+        const id = target.id;
 
         let item = {...this.state.item};
-        item[name] = value;
+        item[id] = value;
         this.setState({item});
     }
 
@@ -46,7 +46,6 @@ export default class Register extends React.Component {
             if (!response.ok) {
                 response.json().then(json => {
                     for (let key of Object.keys(json)) {
-                        console.log(key, json[key]);
                         this.state.errors[key] = json[key];
                     }
                     this.setState({
@@ -62,49 +61,63 @@ export default class Register extends React.Component {
     }
 
     render() {
-        return (<Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        // minLength="3"
-                        // maxLength="20"
-                        // required
-                        className={this.state.errors.username ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
+        return (<Box onChange={this.handleChange}>
+                <h3>Create an account</h3>
+                <FormControl fullWidth>
+                    <TextField
+                        id="username"
+                        label="Username"
+                        variant="outlined"
+                        size="small"
+                        sx={{mt: 0.5}}
+                        error={!!this.state.errors.username}
+                        fullWidth
                     />
                     {this.state.errors.username &&
-                    <ul className="invalid-feedback">
+                    <ul className="invalid-helper">
                         {this.state.errors.username.map((err, i) => <li key={i}>{err}</li>)}
                     </ul>}
-                    <Form.Label className="mt-3">Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        minLength="8"
-                        required
-                        className={this.state.errors.password ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
+                </FormControl>
+                <FormControl fullWidth>
+                    <TextField
+                        id="password"
+                        label="Password"
+                        variant="outlined"
+                        size="small"
+                        sx={{mt: 1.5}}
+                        error={!!this.state.errors.password}
+                        fullWidth
                     />
                     {this.state.errors.password &&
-                    <ul className="invalid-feedback">
+                    <ul className="invalid-helper">
                         {this.state.errors.password.map((err, i) => <li key={i}>{err}</li>)}
                     </ul>}
-                    <Form.Label className="mt-3">Repeat password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        name="passwordRepeat"
-                        placeholder="Repeat password"
-                        minLength="8"
-                        required
-                        className={this.state.errors.passwordRepeat ? "is-invalid" : Object.keys(this.state.errors).length > 0 ? "is-valid" : ""}
+                </FormControl>
+                <FormControl fullWidth>
+                    <TextField
+                        id="passwordRepeat"
+                        label="Repeat password"
+                        variant="outlined"
+                        size="small"
+                        sx={{mt: 1.5}}
+                        error={!!this.state.errors.passwordRepeat}
+                        fullWidth
                     />
                     {this.state.errors.passwordRepeat &&
-                    <ul className="invalid-feedback">
+                    <ul className="invalid-helper">
                         {this.state.errors.passwordRepeat.map((err, i) => <li key={i}>{err}</li>)}
                     </ul>}
-                    <Button type="submit" className="btn btn-primary col-12 mt-3">Register</Button>
-                </Form>
+                </FormControl>
+                <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{mt: 1.5, mb: 1}}
+                        fullWidth
+                        onClick={this.handleSubmit}
+                >
+                    Register
+                </Button>
+            </Box>
         )
     }
 }

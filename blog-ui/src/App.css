@@ -1,9 +1,39 @@
-body{
+body {
     padding-top: 70px;
 }
 
-header{
-    z-index: 4;
+header {
+    /*z-index: 4;*/
+}
+
+.auth-box{
+    margin-top: -30px !important;
+    right: 0 !important;
+    background: #fff;
+    padding: 10px;
+    text-align: center;
+    border-bottom-left-radius: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .auth-box{
+        margin-top: -38px !important;
+        border-bottom-left-radius: 0;
+    }
+}
+
+.auth{
+    z-index: 99 !important;
+}
+
+.dark-screen {
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0 !important;
+    cursor: pointer;
+}
+
+.card{
+    z-index: -1 !important;
 }
 
 header .navbar .nav-item {
@@ -21,22 +51,8 @@ header .navbar .nav-item svg:hover {
     z-index: 3;
 }
 
-.auth-box {
-    z-index: 2;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    -webkit-box-shadow: 0 1px 11px 0 #000;
-    box-shadow: 0 1px 11px 0 #000;
-    top: calc(100% + 9px);
-}
 
-.dark-screen {
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-    cursor: pointer;
-}
-
-.card-header button{
+.card-header button {
     margin-top: -10px;
     padding: 0 5px 4px;
     font-size: 18px;
@@ -45,12 +61,12 @@ header .navbar .nav-item svg:hover {
     transition: 0.1s;
 }
 
-.card-header button:hover{
+.card-header button:hover {
     opacity: 1;
     transform: scale(1.05);
 }
 
-.card-text{
+.card-text {
     text-align: justify;
     white-space: pre-line;
 }
@@ -60,14 +76,23 @@ header .navbar .nav-item svg:hover {
 }
 
 
-ul.invalid-feedback {
-margin-left: -15px;
+ul.invalid-helper {
+    margin-left: -10px;
+    margin-bottom: 2px;
+    color: #d20101;
+    font-size: 14px;
+    text-align: left;
 }
 
-.invalid-feedback li:first-letter {
+.invalid-helper li:first-letter {
     text-transform: capitalize;
 }
 
-.success-response{
+.success-response {
     margin-bottom: 0 !important;
+}
+
+.is-valid{
+    background: red !important;
+    padding: 50px !important;
 }
