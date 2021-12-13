@@ -1,8 +1,10 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import React from "react";
-import Header from './Header';
-import Blog from './blog/Blog';
+import Header from './components/header/Header';
+import Blog from './components/content/Blog';
+import Footer from "./components/footer/Footer";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -34,14 +36,17 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div className="App">
-                <header>
-                <Header user={this.state.user}/>
-                </header>
-                <main>
-                    <Blog user={this.state.user}/>
-                </main>
-            </div>
+            <BrowserRouter>
+                <div className="App">
+                    <Header user={this.state.user}/>
+                    <Routes>
+                        <Route path="/" element={<Blog user={this.state.user}/>}/>
+                        {/*<Route path="/products/create" element={<Product/>}/>*/}
+                    </Routes>
+                    {/*<Blog user={this.state.user}/>*/}
+                    <Footer/>
+                </div>
+            </BrowserRouter>
         );
     }
 }

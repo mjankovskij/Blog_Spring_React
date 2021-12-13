@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, Button} from 'react-bootstrap';
 import {Pencil, Trash} from 'react-bootstrap-icons';
-import BlogForm from "./BlogForm";
+import BlogForm from "../forms/BlogForm";
 import Cookies from 'js-cookie';
 import {Container} from '@mui/material';
 
