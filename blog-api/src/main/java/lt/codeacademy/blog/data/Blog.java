@@ -40,9 +40,9 @@ public class Blog {
     @Column(nullable = false, updatable=false)
     private Date datetime;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    @NotNull
     private User user;
 
     @OrderBy("datetime ASC")

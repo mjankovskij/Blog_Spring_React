@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import React from "react";
 import Header from './components/header/Header';
-import Blog from './components/content/Blog';
+import Blog from './page/Blog';
 import Footer from "./components/footer/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
@@ -45,6 +45,10 @@ export default class App extends React.Component {
                     </Routes>
                     {/*<Blog user={this.state.user}/>*/}
                     <Footer/>
+
+
+
+
                 </div>
             </BrowserRouter>
         );
