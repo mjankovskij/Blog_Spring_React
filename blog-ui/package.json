@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
-    "react-bootstrap-icons": "^1.6.1"
+    "react-bootstrap-icons": "^1.6.1",
+    "react-mui-confirm": "^1.0.0"
   }
 }

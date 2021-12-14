@@ -17,19 +17,19 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {NavLink} from "react-router-dom";
 import {getUser, logoutProcess} from "../../api/userApi";
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-        primary: {
-            main: '#1976d2',
-        },
-    },
-});
-
 export default () => {
     const [auth, setAuth] = useState(false);
     const [loginForm, setLoginForm] = useState(true);
     const [user, setUser] = useState([]);
+
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#1976d2',
+            },
+        },
+    });
 
     useEffect(() => {
         getUser()

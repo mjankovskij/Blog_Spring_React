@@ -5,6 +5,7 @@ import BlogForm from "../components/forms/Blog";
 import {Box, CircularProgress, Container, Pagination} from '@mui/material';
 import {deleteBlog, getBlogs} from "../api/blogApi";
 import {getUser} from "../api/userApi";
+import Dialog from "../components/Dialog";
 
 export default () => {
     const emptyBlog = {
@@ -16,7 +17,9 @@ export default () => {
     const [blog, setBlog] = useState(emptyBlog);
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState(getUser());
+    // const [user, setUser] = useState(getUser());
+    const [open, setOpen] = useState(false);
+    const [removable, setRemovable] = useState(null);
 
     const dateTimeFormat = (dateTime) => {
         return new Date(new Date(dateTime).getTime() - (new Date(dateTime).getTimezoneOffset() * 60000)).toISOString().replace('T', ' ').slice(0, 16)
@@ -34,12 +37,23 @@ export default () => {
         window.scrollTo(0, 0);
     }
 
-    const remove = (id) => {
-        if (window.confirm("Delete the blog?")) {
-            deleteBlog(id).then(() => {
-                let blogsCleaned = [...blogs].filter(i => i.id !== id);
+    const remove = () => {
+            deleteBlog(removable.id).then(() => {
+                let blogsCleaned = [...blogs].filter(i => i.id !== removable.id);
                 setBlogs(blogsCleaned);
-            }).catch((error) => console.log(error));
+            });
+    }
+
+    const handleConfirm = (choice, removableBlog) => {
+        if(choice === true){
+            remove();
+            setOpen(false);
+        } else
+        if(choice === false){
+            setOpen(false);
+        } else{
+            setRemovable(removableBlog);
+            setOpen(true);
         }
     }
 
@@ -47,14 +61,17 @@ export default () => {
         setBlog(data);
     }
 
+    const messageDelete = `Delete blog "${removable && removable.title}"?`;
+
     return (
         <Container>
+            <Dialog open={open} description={messageDelete} handleConfirm={handleConfirm}/>
             {
                 loading ? <Box sx={{display: 'flex', justifyContent: 'center'}}>
                         <CircularProgress/>
                     </Box> :
                     <>
-                        <BlogForm blog={{...blog}}  handleChange ={handleChange}/>
+                        <BlogForm blog={{...blog}} handleChange={handleChange}/>
                         {blogs.map((blog) => (
                             <Card className="mt-4" key={blog.id}>
                                 <Card.Header id={blog.id}>
@@ -64,7 +81,7 @@ export default () => {
                                     {/*{this.props.user.username && this.props.user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0] &&*/}
                                     {/*<>*/}
                                     <Button className="ms-2 btn-danger"
-                                            onClick={() => remove(blog.id)}><Trash/></Button>
+                                            onClick={() => handleConfirm(null, blog)}><Trash/></Button>
                                     <Button className="ms-2 btn-primary"
                                             onClick={() => edit(blog)}><Pencil/></Button>
                                     {/*</>*/}
