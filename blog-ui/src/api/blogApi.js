@@ -8,14 +8,11 @@ const headers = {
 }
 
 const getBlogs = () => HTTP.get('/blog/get');
-
 const saveBlog = (data) =>
     data.id ?
         HTTP.post(`/blog/save`, JSON.stringify(data), {headers: headers})
         :
         HTTP.put(`/blog/save`, JSON.stringify(data), {headers: headers})
 ;
-
 const deleteBlog = (id) => HTTP.delete(`/blog/delete/${id}`, {headers: headers});
-
 export {getBlogs, deleteBlog, saveBlog}

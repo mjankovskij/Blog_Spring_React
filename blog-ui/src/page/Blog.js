@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Card, Button} from 'react-bootstrap';
 import {Pencil, Trash} from 'react-bootstrap-icons';
-import BlogForm from "../components/forms/BlogForm";
+import BlogForm from "../components/forms/Blog";
 import {Box, CircularProgress, Container, Pagination} from '@mui/material';
 import {deleteBlog, getBlogs} from "../api/blogApi";
+import {getUser} from "../api/userApi";
 
 export default () => {
     const emptyBlog = {
@@ -15,6 +16,7 @@ export default () => {
     const [blog, setBlog] = useState(emptyBlog);
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(getUser());
 
     const dateTimeFormat = (dateTime) => {
         return new Date(new Date(dateTime).getTime() - (new Date(dateTime).getTimezoneOffset() * 60000)).toISOString().replace('T', ' ').slice(0, 16)

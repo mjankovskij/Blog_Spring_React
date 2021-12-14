@@ -1,66 +1,44 @@
-import React from 'react';
-import Cookies from 'js-cookie';
+import React, {useState} from 'react';
 import {Box, FormControl, Button, TextField} from '@mui/material';
+import {loginProcess} from "../../api/userApi";
 
-export default class Login extends React.Component {
-    emptyItem = {
+export default () => {
+    const emptyUser = {
         username: '',
         password: ''
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            item: this.emptyItem,
-            errors: {}
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    const [user, setUser] = useState(emptyUser);
+    const [errors, setErrors] = useState([]);
 
-    handleChange(e) {
+    const handleChange = (e) => {
         const target = e.target;
         const value = target.value;
         const id = target.id;
 
-        let item = {...this.state.item};
-        item[id] = value;
-        this.setState({item});
+        let input = emptyUser;
+        input[id] = value;
+        setUser(input);
     }
 
-    async handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        this.state.errors = {};
-        const {item} = this.state;
-        await fetch('/user/login', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN')
-            },
-            body: JSON.stringify(item),
-        }).then(response => {
-            if (!response.ok) {
-                response.json().then(json => {
-                    for (let key of Object.keys(json)) {
-                        this.state.errors[key] = json[key];
-                    }
-                    this.setState({
-                        errors: this.state.errors
-                    });
-                });
-            } else {
-                this.setState({
-                    errors: {"": ""}
-                });
+        const errorsNew = [];
+        loginProcess(user)
+            .then(() => {
                 window.location.reload();
-            }
-        });
+                }
+            )
+            .catch(error => {
+                    for (let key of Object.keys(error.response.data)) {
+                        errorsNew[key] = error.response.data[key];
+                    }
+                    setErrors(errorsNew);
+                }
+            );
     }
 
-    render() {
-        return (<Box onChange={this.handleChange}>
+        return (<Box onChange={handleChange}>
                 <h3>Sign in</h3>
                 <FormControl fullWidth>
                     <TextField
@@ -70,7 +48,7 @@ export default class Login extends React.Component {
                         size="small"
                         sx={{mt: 0.5}}
                         fullWidth
-                        error={!!this.state.errors.password}
+                        error={!!errors.password}
                     />
                 </FormControl>
                 <FormControl fullWidth>
@@ -82,11 +60,11 @@ export default class Login extends React.Component {
                         size="small"
                         sx={{mt: 1.5}}
                         fullWidth
-                        error={!!this.state.errors.password}
+                        error={!!errors.password}
                     />
-                    {this.state.errors.password &&
+                    {errors.password &&
                     <ul className="invalid-helper">
-                        {this.state.errors.password.map((err, i) => <li key={i}>{err}</li>)}
+                        {errors.password.map((err, i) => <li key={i}>{err}</li>)}
                     </ul>}
                 </FormControl>
                 <Button
@@ -94,12 +72,11 @@ export default class Login extends React.Component {
                         variant="contained"
                         sx={{mt: 1.5, mb: 1}}
                         fullWidth
-                        onClick={this.handleSubmit}
+                        onClick={handleSubmit}
                 >
                     Login
                 </Button>
             </Box>
         )
-    }
 }
 

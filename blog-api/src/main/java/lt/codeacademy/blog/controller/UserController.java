@@ -18,8 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
+import static lt.codeacademy.blog.ApiPath.ROOT;
+
 @RestController
-@RequestMapping("/user")
+@RequestMapping(ROOT + "/user")
 public class UserController {
     private final UserService userService;
 

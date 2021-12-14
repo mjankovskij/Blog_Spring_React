@@ -17,15 +17,14 @@ export default (props) => {
         const value = target.value;
         const id = target.id;
 
-        let blogInput = blog;
-        blogInput[id] = value;
-        props.handleChange(blogInput);
+        let input = blog;
+        input[id] = value;
+        props.handleChange(input);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const errorsNew = [];
-        console.log(blog)
         saveBlog(blog)
             .then(r => {
                     setErrors([])
