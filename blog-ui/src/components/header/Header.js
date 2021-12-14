@@ -32,8 +32,7 @@ export default () => {
     });
 
     useEffect(() => {
-        getUser()
-            .then(({data}) => setUser(data))
+        getUser().then(({data}) => setUser(data));
     }, [])
 
     const handleLogout = () => {

@@ -22,14 +22,14 @@ export default (props) => {
                     color="inherit"
                     onClick={() => props.handleConfirm(false)}
                 >
-                    Disagree
+                    Cancel
                 </Button>
                 <Button
                     variant="contained"
                     onClick={() => props.handleConfirm(true)}
                     autoFocus
                 >
-                    Agree
+                    Confirm
                 </Button>
             </DialogActions>
         </Dialog>

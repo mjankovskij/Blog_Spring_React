@@ -8,18 +8,18 @@ export default (props) => {
     const [created, setCreated] = useState(false);
 
     const handleReset = () => {
-        props.handleChange();
+        props.handleInput();
         setErrors([]);
     }
 
-    const handleChange = (e) => {
+    const handleInput = (e) => {
         const target = e.target;
         const value = target.value;
         const id = target.id;
 
         let input = blog;
         input[id] = value;
-        props.handleChange(input);
+        props.handleInput(input);
     }
 
     const handleSubmit = (e) => {
@@ -46,7 +46,7 @@ export default (props) => {
     }, [props.blog])
 
     return (
-        <Box onChange={handleChange}
+        <Box onChange={handleInput}
              sx={{
                  mt: 2,
                  p: 2,

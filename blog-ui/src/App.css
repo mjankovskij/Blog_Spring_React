@@ -1,14 +1,17 @@
+* {
+    scroll-behavior: unset;
+}
+
+/*html{*/
+/*    scroll-behavior: auto !important;*/
+/*}*/
+
 body {
     padding-top: 70px;
 }
 
 header {
     z-index: 1 !important;
-}
-
-
-.card{
-    z-index: 0 !important;
 }
 
 .dark-screen {
@@ -20,7 +23,7 @@ header {
 
 .auth-box{
     z-index: 2 !important;
-    margin-top: -22px !important;
+    margin-top: -30px !important;
     right: 0 !important;
     background: #fff;
     padding: 10px;
@@ -30,7 +33,7 @@ header {
 
 @media only screen and (max-width: 600px) {
     .auth-box{
-        margin-top: -30px !important;
+        margin-top: -38px !important;
         border-bottom-left-radius: 0;
     }
 }
@@ -49,17 +52,22 @@ header .navbar .nav-item svg:hover {
     box-shadow: 0 -2px 5px 5px #3c3c3c;
 }
 
-
-.card-header button {
-    margin-top: -10px;
-    padding: 0 5px 4px;
+.card-head{
+    background: #f6f6f6;
+    padding-bottom: 5px !important;
+}
+.card-head button {
+    top: -44px;
+    padding: 5px;
     font-size: 18px;
     float: right;
     opacity: 0.3;
     transition: 0.1s;
+    min-width: 24px !important;
 }
 
-.card-header button:hover {
+
+.card-head button:hover {
     opacity: 1;
     transform: scale(1.05);
 }
@@ -67,6 +75,16 @@ header .navbar .nav-item svg:hover {
 .card-text {
     text-align: justify;
     white-space: pre-line;
+    width: 100%;
+    position: relative;
+    padding: 0 15px;
+    top: -15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
 }
 
 .invalid-feedback {
