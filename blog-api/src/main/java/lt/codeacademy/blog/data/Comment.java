@@ -26,7 +26,7 @@ public class Comment {
     @Type(type="uuid-char")
     private UUID id;
     @NotNull
-    @NotBlank
+    @NotBlank(message="{lt.blog.notBlank}")
     @Column(columnDefinition="TEXT", nullable = false)
     @Size(min = 3, max = 200)
     private String text;

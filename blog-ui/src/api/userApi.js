@@ -5,6 +5,7 @@ const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN'),
+    'org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE': 'lt'
 }
 
 const getUser = () => HTTP.get(`/user/get`, {headers: headers});

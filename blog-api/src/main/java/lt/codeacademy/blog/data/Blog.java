@@ -27,12 +27,12 @@ public class Blog {
     @Type(type = "uuid-char")
     private UUID id;
     @NotNull
-    @NotBlank
-    @Size(min = 5, max = 100)
+    @NotBlank(message="{lt.blog.notBlank}")
+    @Size(min = 5, max = 100, message = "{lt.blog.minMaxTitle}")
     private String title;
     @NotNull
-    @NotBlank
-    @Size(min = 50, message = "Description should have min 50 characters")
+    @NotBlank(message="{lt.blog.notBlank}")
+    @Size(min = 50, message = "{lt.blog.minSizeDescription}")
     @Column(columnDefinition="TEXT")
     private String description;
     @CreationTimestamp

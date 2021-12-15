@@ -1,0 +1,20 @@
+{
+  "Sign in": "Sign in",
+  "Login": "Login",
+  "Register": "Register",
+  "Create an account": "Create an account",
+  "Username": "Username",
+  "Password": "Password",
+  "Repeat password": "Repeat password",
+  "Don't have an account?": "Don't have an account?",
+  "Already have an account?": "Already have an account?",
+  "Bad credentials": "Bad credentials",
+  "Create blog": "Create blog",
+  "Edit blog": "Edit blog",
+  "Title": "Title",
+  "Description": "Description",
+  "Create": "Create",
+  "Update": "Update",
+  "Reset": "Reset",
+  "Author": "Author"
+}

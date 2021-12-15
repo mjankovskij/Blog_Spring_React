@@ -6,8 +6,10 @@ import {getUser} from "../api/userApi";
 import Dialog from "../components/Dialog";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import {useTranslation} from "react-i18next";
 
 export default () => {
+    const { t} = useTranslation();
     const itemsPage = 5;
     const emptyBlog = {
         id: '',
@@ -66,10 +68,11 @@ export default () => {
 
     const [page, setPage] = React.useState(1);
     const handlePage = (event, value) => {
-        window.scrollTo(0, 380);
-        setPage(value);
+        if(page !== value) {
+            window.scrollTo(0, 380);
+            setPage(value);
+        }
     };
-
 
     return (
         <Container>
@@ -89,7 +92,7 @@ export default () => {
                                 <CardContent className="card-head">
                                     <Typography variant="body2" component={'span'}>
                                     <h3>{blog.title}</h3>
-                                        <p>Author: {blog.user.username}<br/>
+                                        <p>{t("Author")}: {blog.user.username}<br/>
                                     {dateTimeFormat(blog.datetime)}</p>
                                     {
                                         user.username

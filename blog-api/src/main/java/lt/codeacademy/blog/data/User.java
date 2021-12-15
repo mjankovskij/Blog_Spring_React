@@ -30,16 +30,16 @@ public class User {
     @Type(type="uuid-char")
     private UUID id;
     @NotNull
-    @NotBlank
+    @NotBlank(message="{lt.blog.notBlank}")
     @UniqueUsername
-    @Size(min = 3, max = 20)
+    @Size(min = 3, max = 20, message="{lt.blog.minMaxUsername}")
     private String username;
     @NotNull
-    @NotBlank
-    @Size(min = 8, message = "Password should have min 8 characters")
+    @NotBlank(message="{lt.blog.notBlank}")
+    @Size(min = 8, message = "{lt.blog.minSizePassword}")
     private String password;
     @Transient
-    @NotBlank
+    @NotBlank(message="{lt.blog.repeatPassword}")
     private String passwordRepeat;
 
     @JsonIgnore

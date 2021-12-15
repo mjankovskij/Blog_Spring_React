@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Box, FormControl, Button, TextField} from '@mui/material';
 import {saveBlog} from "../../api/blogApi";
+import {useTranslation} from "react-i18next";
 
 export default (props) => {
+    const { t } = useTranslation();
+
     const [blog, setBlog] = useState(props.blog);
     const [errors, setErrors] = useState([]);
     const [created, setCreated] = useState(false);
@@ -11,7 +14,6 @@ export default (props) => {
         props.handleInput();
         setErrors([]);
     }
-
     const handleInput = (e) => {
         const target = e.target;
         const value = target.value;
@@ -26,7 +28,7 @@ export default (props) => {
         e.preventDefault();
         const errorsNew = [];
         saveBlog(blog)
-            .then(r => {
+            .then(() => {
                     setErrors([])
                     setCreated(true);
                     setTimeout(() => window.location.reload(), 500);
@@ -42,7 +44,7 @@ export default (props) => {
     }
 
     useEffect(() => {
-        setBlog(props.blog)
+        setBlog(props.blog);
     }, [props.blog])
 
     return (
@@ -57,17 +59,17 @@ export default (props) => {
         >
             {blog.id ?
                 <>
-                    <h3 style={{display: 'inline'}}>Update blog</h3>
+                    <h3 style={{display: 'inline'}}>{t("Edit blog")}</h3>
                     <span style={{color: '#999999', marginLeft: '10px'}}>
                             #{blog.id}</span>
                 </>
                 :
-                <h3>Create blog</h3>
+                <h3>{t("Create blog")}</h3>
             }
             <FormControl fullWidth color="colek">
                 <TextField
                     id="title"
-                    label="Title"
+                    label={t("Title")}
                     variant="outlined"
                     sx={{mt: 1.5, backgroundColor: '#fff'}}
                     fullWidth
@@ -82,10 +84,11 @@ export default (props) => {
             <FormControl fullWidth>
                 <TextField
                     id="description"
-                    label="Description"
+                    label={t("Description")}
                     variant="outlined"
                     multiline
-                    rows={5}
+                    minRows={3}
+                    maxRows={15}
                     sx={{mt: 1.5, backgroundColor: '#fff'}}
                     fullWidth
                     value={blog.description}
@@ -105,16 +108,18 @@ export default (props) => {
                     sx={{mt: 1.5}}
                     onClick={handleSubmit}
             >
-                {blog.id ? "Update" : "Create"}
+                {blog.id ? t("Update") : t("Create")}
             </Button>
-            <Button type="submit"
-                    variant="contained"
-                    sx={{mt: 1.5, ml: 2}}
-                    color="inherit"
-                    onClick={handleReset}
-            >
-                Reset
-            </Button>
+            { (props.blog.id || props.blog.title || props.blog.description) &&
+                <Button type="submit"
+                        variant="contained"
+                        sx={{mt: 1.5, ml: 2}}
+                        color="inherit"
+                        onClick={handleReset}
+                >
+                    {t("Reset")}
+                </Button>
+            }
         </Box>
     )
 }

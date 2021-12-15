@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import React from "react";
 import Header from './components/header/Header';
-import Blog from './page/Blog';
+import Blog from './page/Blogs';
 import Footer from "./components/footer/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 

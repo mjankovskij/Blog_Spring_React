@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {Box, FormControl, Button, TextField} from '@mui/material';
 import {loginProcess} from "../../api/userApi";
+import {useTranslation} from "react-i18next";
 
 export default () => {
+    const { t } = useTranslation();
     const emptyUser = {
         username: '',
         password: ''
@@ -39,11 +41,11 @@ export default () => {
     }
 
         return (<Box onChange={handleChange}>
-                <h3>Sign in</h3>
+                <h3>{t("Sign in")}</h3>
                 <FormControl fullWidth>
                     <TextField
                         id="username"
-                        label="Username"
+                        label={t("Username")}
                         variant="outlined"
                         size="small"
                         sx={{mt: 0.5}}
@@ -54,7 +56,7 @@ export default () => {
                 <FormControl fullWidth>
                     <TextField
                         id="password"
-                        label="Password"
+                        label={t("Password")}
                         variant="outlined"
                         type="password"
                         size="small"
@@ -64,7 +66,7 @@ export default () => {
                     />
                     {errors.password &&
                     <ul className="invalid-helper">
-                        {errors.password.map((err, i) => <li key={i}>{err}</li>)}
+                        {errors.password.map((err, i) => <li key={i}>{t(err)}</li>)}
                     </ul>}
                 </FormControl>
                 <Button
@@ -74,7 +76,7 @@ export default () => {
                         fullWidth
                         onClick={handleSubmit}
                 >
-                    Login
+                    {t("Login")}
                 </Button>
             </Box>
         )

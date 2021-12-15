@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import {Box, FormControl, Button, TextField} from '@mui/material';
 import {registerProcess} from "../../api/userApi";
+import {useTranslation} from "react-i18next";
 
 export default () => {
+    const { t } = useTranslation();
     const emptyUser = {
         username: '',
         password: '',
@@ -41,11 +43,11 @@ export default () => {
     }
 
         return (<Box onChange={handleChange}>
-                <h3>Create an account</h3>
+                <h3>{t("Create an account")}</h3>
                 <FormControl fullWidth>
                     <TextField
                         id="username"
-                        label="Username"
+                        label={t("Username")}
                         variant="outlined"
                         size="small"
                         sx={{mt: 0.5}}
@@ -60,7 +62,7 @@ export default () => {
                 <FormControl fullWidth>
                     <TextField
                         id="password"
-                        label="Password"
+                        label={t("Password")}
                         variant="outlined"
                         size="small"
                         sx={{mt: 1.5}}
@@ -75,7 +77,7 @@ export default () => {
                 <FormControl fullWidth>
                     <TextField
                         id="passwordRepeat"
-                        label="Repeat password"
+                        label={t("Repeat password")}
                         variant="outlined"
                         size="small"
                         sx={{mt: 1.5}}
@@ -94,7 +96,7 @@ export default () => {
                         fullWidth
                         onClick={handleSubmit}
                 >
-                    Register
+                    {t("Register")}
                 </Button>
             </Box>
         )

@@ -1,0 +1,20 @@
+{
+  "Sign in": "Prisijunkite",
+  "Login": "Prisijungti",
+  "Register": "Registruotis",
+  "Create an account": "Sukurkite paskyrą",
+  "Username": "Slapyvardis",
+  "Password": "Slaptažodis",
+  "Repeat password": "Pakartokite slaptažodį",
+  "Don't have an account?": "Dar neužsiregistravę?",
+  "Already have an account?": "Jau turite paskyrą?",
+  "Bad credentials": "Neteisingi prisijungimo duomenys",
+  "Create blog": "Kurti blogą",
+  "Edit blog": "Redaguoti blogą",
+  "Title": "Pavadinimas",
+  "Description": "Tekstas",
+  "Create": "Kurti",
+  "Update": "Atnaujinti",
+  "Reset": "Išvalyti",
+  "Author": "Autorius"
+}
