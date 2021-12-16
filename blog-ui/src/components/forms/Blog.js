@@ -11,7 +11,7 @@ export default (props) => {
     const [created, setCreated] = useState(false);
 
     const handleReset = () => {
-        props.handleInput();
+        props.handleInputBlog();
         setErrors([]);
     }
     const handleInput = (e) => {
@@ -21,7 +21,7 @@ export default (props) => {
 
         let input = blog;
         input[id] = value;
-        props.handleInput(input);
+        props.handleInputBlog(input);
     }
 
     const handleSubmit = (e) => {
@@ -66,7 +66,7 @@ export default (props) => {
                 :
                 <h3>{t("Create blog")}</h3>
             }
-            <FormControl fullWidth color="colek">
+            <FormControl fullWidth>
                 <TextField
                     id="title"
                     label={t("Title")}
@@ -101,7 +101,7 @@ export default (props) => {
             </FormControl>
             {created &&
             <div className="alert alert-success p-1 mt-3 success-response">
-                Blog saved successfully.
+                {t("Blog saved successfully.")}
             </div>}
             <Button type="submit"
                     variant="contained"
@@ -110,7 +110,7 @@ export default (props) => {
             >
                 {blog.id ? t("Update") : t("Create")}
             </Button>
-            { (props.blog.id || props.blog.title || props.blog.description) &&
+            { !props.updateCancel && (props.blog.id || props.blog.title || props.blog.description) &&
                 <Button type="submit"
                         variant="contained"
                         sx={{mt: 1.5, ml: 2}}
@@ -118,6 +118,16 @@ export default (props) => {
                         onClick={handleReset}
                 >
                     {t("Reset")}
+                </Button>
+            }
+            {props.updateCancel &&
+                <Button type="submit"
+                        variant="contained"
+                        color="warning"
+                        sx={{mt: 1.5, ml: 2}}
+                        onClick={props.updateCancel}
+                >
+                    Cancel
                 </Button>
             }
         </Box>

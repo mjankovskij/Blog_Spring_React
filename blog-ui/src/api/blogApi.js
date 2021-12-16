@@ -7,6 +7,7 @@ const headers = {
     'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN'),
 }
 
+const getBlog = (id) => HTTP.get(`/blog/get/${id}`, {headers: headers});
 const getBlogs = () => HTTP.get('/blog/get');
 const saveBlog = (data) =>
     data.id ?
@@ -15,4 +16,5 @@ const saveBlog = (data) =>
         HTTP.put(`/blog/save`, JSON.stringify(data), {headers: headers})
 ;
 const deleteBlog = (id) => HTTP.delete(`/blog/delete/${id}`, {headers: headers});
-export {getBlogs, deleteBlog, saveBlog}
+
+export {getBlog, getBlogs, deleteBlog, saveBlog}

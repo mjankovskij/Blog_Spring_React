@@ -40,7 +40,6 @@ public class Comment {
     @JoinColumn(name = "blog_id", nullable = false, updatable = false)
     private Blog blog;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
