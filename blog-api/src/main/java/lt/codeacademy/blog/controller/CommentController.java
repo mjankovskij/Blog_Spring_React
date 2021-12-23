@@ -1,15 +1,14 @@
 package lt.codeacademy.blog.controller;
 
-import static lt.codeacademy.blog.ApiPath.*;
-
-import lt.codeacademy.blog.data.Blog;
-import lt.codeacademy.blog.data.Comment;
-import lt.codeacademy.blog.data.User;
+import lt.codeacademy.blog.entity.Comment;
+import lt.codeacademy.blog.entity.User;
 import lt.codeacademy.blog.service.BlogService;
 import lt.codeacademy.blog.service.CommentService;
 import lt.codeacademy.blog.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(ROOT + "/comment")
+@RequestMapping("/comment")
 public class CommentController {
 
     private final CommentService commentService;
@@ -32,16 +31,17 @@ public class CommentController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Comment> getComments() {
-        return commentService.findAll();
-    }
+//    @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public List<Comment> getComments() {
+//        return commentService.findAll();
+//    }
 
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Comment getComment(@PathVariable UUID id) {
         return commentService.getById(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping(value = "/save/{blog_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void saveBlog(@Valid @RequestBody Comment comment, @PathVariable UUID blog_id) {
@@ -52,15 +52,29 @@ public class CommentController {
         commentService.save(comment);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void saveComment(@Valid @RequestBody Comment comment) {
-        commentService.save(comment);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+        if (user != commentService.getById(comment.getId()).getUser()) {
+            throw new AccessDeniedException("Access is denied!");
+        } else {
+            commentService.save(comment);
+        }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteComment(@PathVariable UUID id) {
-        commentService.delete(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+//        if (!user.getRoles().stream().findFirst().get().getName().equals("ROLE_ADMIN") && id != null && user != commentService.getById(id).getUser()) {
+//            throw new AccessDeniedException("Access is denied!");
+//        } else {
+            commentService.delete(id);
+//        }
     }
 }

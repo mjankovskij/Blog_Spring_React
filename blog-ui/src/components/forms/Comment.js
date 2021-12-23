@@ -12,10 +12,6 @@ export default (props) => {
     const [errors, setErrors] = useState([]);
     const [created, setCreated] = useState(false);
 
-    const handleReset = () => {
-        props.handleInputComment();
-        setErrors([]);
-    }
     const handleInput = (e) => {
         const target = e.target;
         const value = target.value;
@@ -52,8 +48,9 @@ export default (props) => {
     return (
         <Box onChange={handleInput}
         >
+
             {created ?
-                <div className="success-response">
+                <div className="alert alert-success p-1 mt-3 success-response">
                     {t("Comment saved successfully.")}
                 </div>
                 :
@@ -62,7 +59,7 @@ export default (props) => {
                     className="comment-field">
                     <TextField
                         id="text"
-                        label="Comment"
+                        label={t("Comment")}
                         variant="outlined"
                         sx={{mt: 1.5, backgroundColor: '#fff'}}
                         fullWidth

@@ -1,9 +1,11 @@
 package lt.codeacademy.blog.repository;
 
-import lt.codeacademy.blog.data.Comment;
+import lt.codeacademy.blog.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+@Repository
 public interface CommentRepository extends JpaRepository<Comment, UUID> {
 }

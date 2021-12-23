@@ -17,5 +17,10 @@
   "Update": "Update",
   "Reset": "Reset",
   "Author": "Author",
-  "Blog saved successfully.": "Blog saved successfully."
+  "Blog saved successfully.": "Blog saved successfully.",
+  "Edit": "Edit",
+  "Delete": "Delete",
+  "Comment": "Comment",
+  "To Comment": "Comment",
+  "Hi": "Hi"
 }

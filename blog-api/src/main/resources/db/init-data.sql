@@ -1,6 +1,6 @@
 INSERT INTO Users(id, username, password)
-VALUES ('26d6b7e7-0935-4292-ba9a-b590bd82f85b', 'admin', '$2a$10$sKt2l10n9DQRMvwoZZ1XY.v5JcJ8zzpGA7a4htPukzkplU/X6vwnq'),
-       ('372a262b-f482-4b96-9848-7fa8977c1456', 'user', '$2a$10$vEEY6z.vieVtniwvuZp/d.DV/tatEMJ2W5TUubVWJ/r9WL35S/Z.S');
+VALUES ('26d6b7e7-0935-4292-ba9a-b590bd82f85b', 'admin', '{bcrypt}$2a$10$jYIbAef1H7S.womsk7MRtOCSEx/DgM7CZ1nNeLLzoZ/OPs0a25DV2'),
+       ('372a262b-f482-4b96-9848-7fa8977c1456', 'user', '{bcrypt}$2a$10$jYIbAef1H7S.womsk7MRtOCSEx/DgM7CZ1nNeLLzoZ/OPs0a25DV2');
 
 INSERT INTO Roles(id, name, user_id)
 VALUES ('6c9993bc-a831-42da-9f04-8c78584acb7a', 'ROLE_ADMIN', '26d6b7e7-0935-4292-ba9a-b590bd82f85b'),

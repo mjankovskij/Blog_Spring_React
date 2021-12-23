@@ -3,11 +3,12 @@ import BlogForm from "../components/forms/Blog";
 import {Box, Button, Card, CardContent, Typography, CircularProgress, Container, Pagination} from '@mui/material';
 import {deleteBlog, getBlog, getBlogs} from "../api/blogApi";
 import {getUser} from "../api/userApi";
-import Dialog from "../components/Dialog";
+import Dialog from "../components/blog/Dialog";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import {useTranslation} from "react-i18next";
 import {useParams} from "react-router-dom";
+import BlogCard from "../components/blog/Card";
 
 export default ({match}) => {
     const {t} = useTranslation();
@@ -17,9 +18,10 @@ export default ({match}) => {
         description: ''
     };
 
-    const [blog, setBlog] = useState(emptyBlog);
-    const [data, setData] = useState(null);
+    const [tempBlog, setTempBlog] = useState(emptyBlog);
+    const [blog, setBlog] = useState(null);
     const [update, setUpdate] = useState(false);
+    const [blogId, setBlogId] = useState(null);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState([]);
     const [open, setOpen] = useState(false);
@@ -27,14 +29,14 @@ export default ({match}) => {
 
     useEffect(() => {
         getBlog(emptyBlog.id)
-            .then(({data}) => setData(data))
+            .then(({data}) => setBlog(data))
             .catch(error => document.location.href = "/")
             .finally(() => setLoading(false));
         getUser().then(({data}) => setUser(data));
     }, [])
 
-    const editHandle = (dt) => {
-        setBlog(dt);
+    const editHandle = (data) => {
+        setTempBlog(data);
         setUpdate(true);
         window.scrollTo(0, 0);
     }
@@ -58,19 +60,18 @@ export default ({match}) => {
     }
 
     const handleInput = (data = emptyBlog) => {
-        setBlog(data);
+        setTempBlog(data);
     }
 
     const updateCancel = () => {
         setUpdate(false);
     }
 
-    const dateTimeFormat = (dateTime) => {
-        return new Date(new Date(dateTime).getTime() - (new Date(dateTime).getTimezoneOffset() * 60000)).toISOString().replace('T', ' ').slice(0, 16)
-    }
-
     const messageDelete = `Delete blog "${removable && removable.title}"?`;
 
+    const handleBlogIdHandle = (id) =>{
+        setBlogId(id);
+    }
     return (
         <Container>
             <Dialog open={open} description={messageDelete} handleConfirm={handleConfirm}/>
@@ -83,40 +84,16 @@ export default ({match}) => {
                             (user.username
                                 && user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0]
                                 &&
-                                <BlogForm blog={{...blog}} handleInput={handleInput} updateCancel={updateCancel}/>)
+                                <BlogForm blog={{...tempBlog}} handleInput={handleInput} updateCancel={updateCancel}/>)
                             :
-                            <Card key={data.id} sx={{mt: 3}}>
-                                <CardContent className="card-head">
-                                    <Typography variant="body2" component={'span'}>
-                                        <h3>{data.title}</h3>
-                                        <p>{t("Author")}: {data.user.username}<br/>
-                                            {dateTimeFormat(data.datetime)}</p>
-                                        {
-                                            user.username
-                                            && user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0]
-                                            &&
-                                            <div className="actions">
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={() => editHandle(data)}>
-                                                    <EditIcon/>
-                                                </Button>
-                                                <Button
-                                                    sx={{ml: 1}}
-                                                    variant="contained"
-                                                    color="warning"
-                                                    onClick={() => handleConfirm(null, data)}
-                                                >
-                                                    <DeleteForeverIcon/>
-                                                </Button>
-                                            </div>
-                                        }
-                                    </Typography>
-                                </CardContent>
-                                <div className="card-body">
-                                    <div className="card-text-full">{data.description}</div>
-                                </div>
-                            </Card>
+                            <BlogCard
+                                editHandle={editHandle}
+                                blog={blog}
+                                deleteHandle={handleConfirm}
+                                blogId={blogId}
+                                handleBlogIdHandle={handleBlogIdHandle}
+                                key={blog.id}
+                            />
                         }
                     </>
             }

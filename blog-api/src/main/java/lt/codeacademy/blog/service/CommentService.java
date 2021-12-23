@@ -1,6 +1,6 @@
 package lt.codeacademy.blog.service;
 
-import lt.codeacademy.blog.data.Comment;
+import lt.codeacademy.blog.entity.Comment;
 import lt.codeacademy.blog.exception.CommentNotFoundException;
 import lt.codeacademy.blog.repository.CommentRepository;
 import org.springframework.stereotype.Service;

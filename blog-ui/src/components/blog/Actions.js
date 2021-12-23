@@ -3,9 +3,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {styled} from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
+import {getUser} from "../../api/userApi";
+import {useTranslation} from "react-i18next";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -20,7 +22,7 @@ const StyledMenu = styled((props) => (
         }}
         {...props}
     />
-))(({ theme }) => ({
+))(({theme}) => ({
     '& .MuiPaper-root': {
         borderRadius: 6,
         marginTop: theme.spacing(1),
@@ -43,16 +45,34 @@ const StyledMenu = styled((props) => (
 }));
 
 export default (props) => {
+    const { t } = useTranslation();
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const [user, setUser] = useState([]);
+
+    useEffect(() => {
+        getUser().then(({data}) => setUser(data));
+    }, [])
 
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
     };
 
+    const handleEdit = () => {
+        setAnchorEl(null);
+        props.handleEditComment ?
+            props.handleEditComment(props.blogId, props.comment)
+            :
+            props.handleEditBlog(props.blog);
+    };
+
     const handleDelete = () => {
         setAnchorEl(null);
-        props.handleDeleteComment(props.id);
+        props.handleDeleteComment ?
+            props.handleDeleteComment(props.id)
+            :
+            props.handleDeleteBlog(props.blog);
     };
 
     const handleClose = () => {
@@ -72,14 +92,22 @@ export default (props) => {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose} disableRipple>
-                    <EditIcon/>
-                    Edit
-                </MenuItem>
-                <MenuItem onClick={handleDelete} disableRipple>
-                    <DeleteForeverIcon/>
-                    Delete
-                </MenuItem>
+                {(props.handleEditBlog || props.isAuthor) &&
+                    <MenuItem onClick={handleEdit} disableRipple>
+                        <EditIcon/>
+                        {t("Edit")}
+                    </MenuItem>
+                }
+                {
+                    (props.isAuthor
+                        || user.username
+                        && user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0])
+                    &&
+                    <MenuItem onClick={handleDelete} disableRipple>
+                        <DeleteForeverIcon/>
+                        {t("Delete")}
+                    </MenuItem>
+                }
             </StyledMenu>
         </div>
     )

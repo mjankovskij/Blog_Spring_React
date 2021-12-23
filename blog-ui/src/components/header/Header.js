@@ -93,7 +93,7 @@ export default () => {
                                 </FormControl>
                                 {user.username ?
                                     <>
-                                        <span>Hi, {user.username}</span>
+                                        <span>{t("Hi")}, {user.username}</span>
                                         <IconButton
                                             size="large"
                                             edge="end"

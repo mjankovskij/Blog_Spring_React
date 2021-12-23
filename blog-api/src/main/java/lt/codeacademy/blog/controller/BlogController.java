@@ -1,13 +1,12 @@
 package lt.codeacademy.blog.controller;
 
-import static lt.codeacademy.blog.ApiPath.*;
-
-import lt.codeacademy.blog.data.Blog;
-import lt.codeacademy.blog.data.User;
+import lt.codeacademy.blog.entity.Blog;
+import lt.codeacademy.blog.entity.User;
 import lt.codeacademy.blog.service.BlogService;
 import lt.codeacademy.blog.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(ROOT + "/blog")
+@RequestMapping("/blog")
 public class BlogController {
 
     private final BlogService blogService;
@@ -38,6 +37,7 @@ public class BlogController {
         return blogService.getById(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void saveBlog(@Valid @RequestBody Blog blog) {
@@ -47,12 +47,14 @@ public class BlogController {
         blogService.save(blog);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void updateBlog(@Valid @RequestBody Blog blog) {
         blogService.save(blog);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBlog(@PathVariable UUID id) {

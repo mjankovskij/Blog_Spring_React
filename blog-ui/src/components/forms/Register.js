@@ -20,7 +20,7 @@ export default () => {
         const value = target.value;
         const id = target.id;
 
-        let input = emptyUser;
+        let input = user;
         input[id] = value;
         setUser(input);
     }

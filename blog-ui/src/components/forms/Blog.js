@@ -100,7 +100,7 @@ export default (props) => {
                 </ul>}
             </FormControl>
             {created &&
-            <div className="alert alert-success p-1 mt-3 success-response">
+            <div className="success-response">
                 {t("Blog saved successfully.")}
             </div>}
             <Button type="submit"

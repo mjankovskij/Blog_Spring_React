@@ -1,6 +1,6 @@
 package lt.codeacademy.blog.validator;
 
-import lt.codeacademy.blog.data.User;
+import lt.codeacademy.blog.entity.User;
 import lt.codeacademy.blog.validator.annotation.PasswordMatch;
 
 import javax.validation.ConstraintValidator;

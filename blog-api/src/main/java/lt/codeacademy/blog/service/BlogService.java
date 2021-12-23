@@ -1,6 +1,6 @@
 package lt.codeacademy.blog.service;
 
-import lt.codeacademy.blog.data.Blog;
+import lt.codeacademy.blog.entity.Blog;
 import lt.codeacademy.blog.exception.BlogNotFoundException;
 import lt.codeacademy.blog.repository.BlogRepository;
 import org.springframework.stereotype.Service;
