@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Button,} from "@mui/material";
 import Actions from "./Actions";
 import CommentForm from "../forms/Comment";
 import {useTranslation} from "react-i18next";
 import {deleteComment} from "../../api/commentApi";
-import {getUser} from "../../api/userApi";
+import {useSelector} from "react-redux";
 
 export default (props) => {
     const {t} = useTranslation();
@@ -16,11 +16,7 @@ export default (props) => {
 
     const [blog, setBlog] = useState(props.blog);
     const [comment, setComment] = useState(emptyComment);
-    const [user, setUser] = useState([]);
-
-    useEffect(() => {
-        getUser().then(({data}) => setUser(data));
-    }, [])
+    const user = useSelector(state => state.user.user);
 
     const handleCommentStart = (blogId) => {
         props.handleBlogIdHandle(blogId);
@@ -49,9 +45,11 @@ export default (props) => {
                     <p>{c.user.username}</p>
                     <span>{c.text}</span>
                     {
-                        (user.id === c.user.id
-                            || user.username
-                            && user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0])
+
+                            user &&
+                            (user['id'] === c.user.id
+                            || user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")
+                        )
                         &&
                         <Actions
                             id={c.id}
@@ -64,7 +62,7 @@ export default (props) => {
                     }
                 </div>
             ))}
-            {user.username &&
+            {user &&
             (
                 props.blogId === blog.id ?
                     <CommentForm

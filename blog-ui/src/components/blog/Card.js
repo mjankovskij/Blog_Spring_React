@@ -4,17 +4,14 @@ import React, {useEffect, useState} from "react";
 import {getUser} from "../../api/userApi";
 import {useTranslation} from "react-i18next";
 import Comments from "./Comments";
+import {useSelector} from "react-redux";
 
 export default (props) => {
     const {t} = useTranslation();
 
-    const [user, setUser] = useState([]);
+    const user = useSelector(state => state.user.user);
 
     const [blog, setBlog] = useState(props.blog);
-
-    useEffect(() => {
-        getUser().then(({data}) => setUser(data));
-    }, [])
 
     const dateTimeFormat = (dateTime) => {
         return new Date(new Date(dateTime).getTime() - (new Date(dateTime).getTimezoneOffset() * 60000)).toISOString().replace('T', ' ').slice(0, 16)
@@ -45,7 +42,7 @@ export default (props) => {
                 <p>{t("Author")}: {blog.user.username}<br/>
                     {dateTimeFormat(blog.datetime)}</p>
                 {
-                    user.username
+                    user
                     && user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0]
                     &&
                     <div className="actions">

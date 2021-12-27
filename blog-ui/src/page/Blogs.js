@@ -6,6 +6,7 @@ import {getUser} from "../api/userApi";
 import {useTranslation} from "react-i18next";
 import Dialog from "../components/blog/Dialog";
 import BlogCard from "../components/blog/Card";
+import {useSelector} from "react-redux";
 
 
 export default () => {
@@ -18,7 +19,7 @@ export default () => {
     };
 
     const [blogs, setBlogs] = useState([]);
-    const [user, setUser] = useState([]);
+    const user = useSelector(state => state.user.user);
     const [page, setPage] = React.useState(1);
 
     const [blogId, setBlogId] = useState(null);
@@ -34,7 +35,6 @@ export default () => {
             .then(({data}) => setBlogs(data))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
-        getUser().then(({data}) => setUser(data));
     }, [])
 
     const editHandle = (blog) => {
@@ -87,8 +87,8 @@ export default () => {
                     </Box> :
                     <>
                         {
-                            user.username
-                            && user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0]
+                            user
+                            && user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")
                             && <BlogForm blog={{...blog}} handleInputBlog={handleInputBlog}/>
                         }
                         {blogs.slice((page - 1) * itemsPage, page * itemsPage).map((blog) => (

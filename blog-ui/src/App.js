@@ -6,10 +6,13 @@ import Blogs from './page/Blogs';
 import Footer from "./components/footer/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Blog from "./page/Blog";
+import {Provider} from "react-redux";
+import blog from "./blog/blog";
 
 export default class App extends React.Component {
     render() {
         return (
+            <Provider store={blog}>
             <BrowserRouter>
                 <div className="App">
                     <Header/>
@@ -20,6 +23,7 @@ export default class App extends React.Component {
                     <Footer/>
                 </div>
             </BrowserRouter>
+            </Provider>
         );
     }
 }

@@ -3,8 +3,7 @@ import Cookies from 'js-cookie';
 
 const headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN'),
+    'Content-Type': 'application/json'
 }
 
 const saveComment = (data, blogId) =>

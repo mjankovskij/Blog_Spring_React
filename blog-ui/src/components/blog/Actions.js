@@ -8,6 +8,7 @@ import {styled} from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import {getUser} from "../../api/userApi";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -49,11 +50,7 @@ export default (props) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const [user, setUser] = useState([]);
-
-    useEffect(() => {
-        getUser().then(({data}) => setUser(data));
-    }, [])
+    const user = useSelector(state => state.user.user);
 
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);

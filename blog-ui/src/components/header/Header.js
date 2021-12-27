@@ -17,17 +17,20 @@ import {
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {NavLink} from "react-router-dom";
-import {getUser, logoutProcess} from "../../api/userApi";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import Cookies from 'universal-cookie';
+import {useDispatch, useSelector} from "react-redux";
+import {removeUser} from "../../blog/slice/userSlice";
 
 export default () => {
-    const { t} = useTranslation();
+    const {t} = useTranslation();
     const cookies = new Cookies();
 
     const [auth, setAuth] = useState(false);
     const [loginForm, setLoginForm] = useState(true);
-    const [user, setUser] = useState([]);
+
+    const user = useSelector(state => state.user.user);
+    const dispatch = useDispatch();
 
     const darkTheme = createTheme({
         palette: {
@@ -38,90 +41,83 @@ export default () => {
         },
     });
 
-    useEffect(() => {
-        getUser().then(({data}) => setUser(data));
-    }, [])
-
     const handleLogout = () => {
-        logoutProcess().then(() => {
-            window.location.reload();
-        });
+        dispatch(removeUser());
     }
 
+    const changeLanguage = (e) => {
+        cookies.set('org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE', e.target.value, {path: '/'});
+        window.location.reload();
+    };
 
-        const changeLanguage = (e) => {
-            cookies.set('org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE', e.target.value, { path: '/' });
-            window.location.reload();
-        };
-
-        return (<Box sx={{flexGrow: 1}}>
+    return (<Box sx={{flexGrow: 1}}>
             {auth && (
                 <div onClick={() => {
                     setAuth(!auth)
                 }} className="dark-screen"/>)}
             <ThemeProvider theme={darkTheme}>
                 <AppBar position="fixed">
-                        <Toolbar>
-                            <Typography
-                                variant="h6"
-                                noWrap
-                                component="div"
+                    <Toolbar>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                        >
+                            <Link
+                                color="white"
+                                underline="none"
+                                to="/"
+                                component={NavLink}
                             >
-                                <Link
-                                    color="white"
-                                    underline="none"
-                                    to="/"
-                                    component={NavLink}
+                                BLOG
+                            </Link>
+                        </Typography>
+                        <Box sx={{flexGrow: 1}}/>
+                        <Box>
+                            <FormControl
+                                style={{textUnderlinePosition: 'under'}}
+                            >
+                                <Select
+                                    className="language-select"
+                                    id="language"
+                                    value={cookies.get('org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE')}
+                                    onChange={changeLanguage}
                                 >
-                                    BLOG
-                                </Link>
-                            </Typography>
-                            <Box sx={{flexGrow: 1}}/>
-                            <Box>
-                                <FormControl
-                                    style={{textUnderlinePosition:'under'}}
-                                >
-                                    <Select
-                                        className="language-select"
-                                        id="language"
-                                        value={cookies.get('org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE')}
-                                        onChange={changeLanguage}
-                                    >
-                                        <MenuItem name="language" value="en">EN</MenuItem>
-                                        <MenuItem name="language" value="lt">LT</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                {user.username ?
-                                    <>
-                                        <span>{t("Hi")}, {user.username}</span>
-                                        <IconButton
-                                            size="large"
-                                            edge="end"
-                                            aria-label="account of current user"
-                                            aria-haspopup="true"
-                                            color="inherit"
-                                            sx={{ml: 1}}
-                                            onClick={handleLogout}
-                                        >
-                                            <LogoutIcon/>
-                                        </IconButton>
-                                    </>
-                                    :
+                                    <MenuItem name="language" value="en">EN</MenuItem>
+                                    <MenuItem name="language" value="lt">LT</MenuItem>
+                                </Select>
+                            </FormControl>
+                            {user ?
+                                <>
+                                    <span>{t("Hi")}, {user.username}</span>
                                     <IconButton
                                         size="large"
                                         edge="end"
                                         aria-label="account of current user"
                                         aria-haspopup="true"
                                         color="inherit"
-                                        onClick={() => {
-                                            setAuth(!auth)
-                                        }}
+                                        sx={{ml: 1}}
+                                        onClick={handleLogout}
                                     >
-                                        <AccountCircleIcon/>
+                                        <LogoutIcon/>
                                     </IconButton>
-                                }
-                            </Box>
-                        </Toolbar>
+                                </>
+                                :
+                                <IconButton
+                                    size="large"
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-haspopup="true"
+                                    color="inherit"
+                                    onClick={() => {
+                                        setAuth(!auth)
+                                    }}
+                                >
+                                    <AccountCircleIcon/>
+                                </IconButton>
+                            }
+                        </Box>
+                    </Toolbar>
                 </AppBar>
             </ThemeProvider>
             {auth && (

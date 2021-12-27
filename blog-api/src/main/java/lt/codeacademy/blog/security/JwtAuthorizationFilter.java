@@ -30,13 +30,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
-
-        String token = authorization.replace("Bearer ", "");
-        System.out.println("token" + token);
-
-        Authentication authentication = jwtService.parseToken(token);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if(SecurityContextHolder.getContext().getAuthentication() == null) {
+            String token = authorization.replace("Bearer ", "");
+            Authentication authentication = jwtService.parseToken(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
         chain.doFilter(request, response);
     }
+
 }

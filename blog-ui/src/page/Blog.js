@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import {useTranslation} from "react-i18next";
 import {useParams} from "react-router-dom";
 import BlogCard from "../components/blog/Card";
+import {useSelector} from "react-redux";
 
 export default ({match}) => {
     const {t} = useTranslation();
@@ -23,7 +24,7 @@ export default ({match}) => {
     const [update, setUpdate] = useState(false);
     const [blogId, setBlogId] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState([]);
+    const user = useSelector(state => state.user.user);
     const [open, setOpen] = useState(false);
     const [removable, setRemovable] = useState(null);
 
@@ -32,7 +33,6 @@ export default ({match}) => {
             .then(({data}) => setBlog(data))
             .catch(error => document.location.href = "/")
             .finally(() => setLoading(false));
-        getUser().then(({data}) => setUser(data));
     }, [])
 
     const editHandle = (data) => {
