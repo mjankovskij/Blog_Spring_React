@@ -6,7 +6,6 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import React, {useEffect, useState} from "react";
 import {styled} from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
-import {getUser} from "../../api/userApi";
 import {useTranslation} from "react-i18next";
 import {useSelector} from "react-redux";
 
@@ -50,7 +49,7 @@ export default (props) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const user = useSelector(state => state.user.user);
+    const user = JSON.parse(sessionStorage.getItem('Authorization'));
 
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);

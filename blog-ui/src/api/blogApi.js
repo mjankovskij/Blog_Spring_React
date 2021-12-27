@@ -1,9 +1,11 @@
 import HTTP from "./index";
-import Cookies from 'js-cookie';
+
+const token = sessionStorage.getItem('Authorization') ? JSON.parse(sessionStorage.getItem('Authorization')).token : '';
 
 const headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
 }
 
 const getBlog = (id) => HTTP.get(`/blog/get/${id}`, {headers: headers});

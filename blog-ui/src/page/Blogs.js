@@ -19,7 +19,7 @@ export default () => {
     };
 
     const [blogs, setBlogs] = useState([]);
-    const user = useSelector(state => state.user.user);
+    const user = JSON.parse(sessionStorage.getItem('Authorization'));
     const [page, setPage] = React.useState(1);
 
     const [blogId, setBlogId] = useState(null);
@@ -62,7 +62,7 @@ export default () => {
 
     const handlePage = (event, value) => {
         if (page !== value) {
-            window.scrollTo(0, 380);
+            window.scrollTo(0, 340);
             setPage(value);
         }
     };

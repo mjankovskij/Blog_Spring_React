@@ -19,8 +19,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {NavLink} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import Cookies from 'universal-cookie';
-import {useDispatch, useSelector} from "react-redux";
-import {removeUser} from "../../blog/slice/userSlice";
 
 export default () => {
     const {t} = useTranslation();
@@ -29,8 +27,7 @@ export default () => {
     const [auth, setAuth] = useState(false);
     const [loginForm, setLoginForm] = useState(true);
 
-    const user = useSelector(state => state.user.user);
-    const dispatch = useDispatch();
+    const user = JSON.parse(sessionStorage.getItem('Authorization'));
 
     const darkTheme = createTheme({
         palette: {
@@ -42,7 +39,8 @@ export default () => {
     });
 
     const handleLogout = () => {
-        dispatch(removeUser());
+        sessionStorage.removeItem('Authorization');
+        window.location.href = '/';
     }
 
     const changeLanguage = (e) => {
@@ -51,7 +49,7 @@ export default () => {
     };
 
     return (<Box sx={{flexGrow: 1}}>
-            {auth && (
+            {auth && !user && (
                 <div onClick={() => {
                     setAuth(!auth)
                 }} className="dark-screen"/>)}
@@ -120,7 +118,7 @@ export default () => {
                     </Toolbar>
                 </AppBar>
             </ThemeProvider>
-            {auth && (
+            {auth && !user && (
                 <Grid item xs={12} sm={6} md={4} lg={4} xl={3} position="fixed" className="auth-box">
                     {loginForm ? (<>
                         <Login/>

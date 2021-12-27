@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {addUser} from "../../blog/slice/userSlice";
 
 export default () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const emptyUser = {
         username: '',
         password: ''
@@ -34,15 +34,12 @@ export default () => {
         const errorsNew = [];
         loginProcess(user)
             .then(({data, headers}) => {
-                dispatch(addUser({
-                    user: data,
-                    jwtToken: headers.authorization
-                }));
-                navigate('/');
-                console.log("PAVYKO??s",headers.authorization, data)
+                data["token"] = headers.authorization;
+                sessionStorage.setItem('Authorization', JSON.stringify(data));
+                window.location.href = "/";
             })
             .catch(error => {
-                console.log(error.response.data)
+                    console.log(error.response.data)
                     for (let key of Object.keys(error.response.data)) {
                         errorsNew[key] = error.response.data[key];
                     }
@@ -51,45 +48,45 @@ export default () => {
             );
     }
 
-        return (<Box onChange={handleChange}>
-                <h3>{t("Sign in")}</h3>
-                <FormControl fullWidth>
-                    <TextField
-                        id="username"
-                        label={t("Username")}
-                        variant="outlined"
-                        size="small"
-                        sx={{mt: 0.5}}
-                        fullWidth
-                        error={!!errors.password}
-                    />
-                </FormControl>
-                <FormControl fullWidth>
-                    <TextField
-                        id="password"
-                        label={t("Password")}
-                        variant="outlined"
-                        type="password"
-                        size="small"
-                        sx={{mt: 1.5}}
-                        fullWidth
-                        error={!!errors.password}
-                    />
-                    {errors.password &&
-                    <ul className="invalid-helper">
-                        {errors.password.map((err, i) => <li key={i}>{t(err)}</li>)}
-                    </ul>}
-                </FormControl>
-                <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{mt: 1.5, mb: 1}}
-                        fullWidth
-                        onClick={handleSubmit}
-                >
-                    {t("Login")}
-                </Button>
-            </Box>
-        )
+    return (<Box onChange={handleChange}>
+            <h3>{t("Sign in")}</h3>
+            <FormControl fullWidth>
+                <TextField
+                    id="username"
+                    label={t("Username")}
+                    variant="outlined"
+                    size="small"
+                    sx={{mt: 0.5}}
+                    fullWidth
+                    error={!!errors.password}
+                />
+            </FormControl>
+            <FormControl fullWidth>
+                <TextField
+                    id="password"
+                    label={t("Password")}
+                    variant="outlined"
+                    type="password"
+                    size="small"
+                    sx={{mt: 1.5}}
+                    fullWidth
+                    error={!!errors.password}
+                />
+                {errors.password &&
+                <ul className="invalid-helper">
+                    {errors.password.map((err, i) => <li key={i}>{t(err)}</li>)}
+                </ul>}
+            </FormControl>
+            <Button
+                type="submit"
+                variant="contained"
+                sx={{mt: 1.5, mb: 1}}
+                fullWidth
+                onClick={handleSubmit}
+            >
+                {t("Login")}
+            </Button>
+        </Box>
+    )
 }
 

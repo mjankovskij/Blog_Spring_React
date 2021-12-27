@@ -1,15 +1,13 @@
 import {Button, Card, CardContent, Typography} from "@mui/material";
 import Actions from "./Actions";
-import React, {useEffect, useState} from "react";
-import {getUser} from "../../api/userApi";
+import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import Comments from "./Comments";
-import {useSelector} from "react-redux";
 
 export default (props) => {
     const {t} = useTranslation();
 
-    const user = useSelector(state => state.user.user);
+    const user = JSON.parse(sessionStorage.getItem('Authorization'));
 
     const [blog, setBlog] = useState(props.blog);
 

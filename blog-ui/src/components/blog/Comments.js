@@ -16,7 +16,7 @@ export default (props) => {
 
     const [blog, setBlog] = useState(props.blog);
     const [comment, setComment] = useState(emptyComment);
-    const user = useSelector(state => state.user.user);
+    const user = JSON.parse(sessionStorage.getItem('Authorization'));
 
     const handleCommentStart = (blogId) => {
         props.handleBlogIdHandle(blogId);

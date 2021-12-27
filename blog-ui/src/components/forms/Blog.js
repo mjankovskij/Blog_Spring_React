@@ -35,6 +35,8 @@ export default (props) => {
                 }
             )
             .catch(error => {
+                console.log(error)
+                console.log(error.response.headers)
                     for (let key of Object.keys(error.response.data)) {
                         errorsNew[key] = error.response.data[key];
                     }

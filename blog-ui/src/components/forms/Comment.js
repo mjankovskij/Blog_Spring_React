@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Box, FormControl, Button, TextField} from '@mui/material';
-import {saveBlog} from "../../api/blogApi";
 import {useTranslation} from "react-i18next";
 import {saveComment} from "../../api/commentApi";
 import SendIcon from '@mui/icons-material/Send';
