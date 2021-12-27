@@ -11,8 +11,7 @@ import {
     createTheme,
     ThemeProvider,
     IconButton,
-    Grid,
-    Container, FormControl, InputLabel, Select, MenuItem
+    Grid, FormControl, Select, MenuItem
 } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';

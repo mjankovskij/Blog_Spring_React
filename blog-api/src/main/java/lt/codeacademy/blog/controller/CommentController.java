@@ -31,17 +31,11 @@ public class CommentController {
         this.userService = userService;
     }
 
-//    @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public List<Comment> getComments() {
-//        return commentService.findAll();
-//    }
-
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Comment getComment(@PathVariable UUID id) {
         return commentService.getById(id);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping(value = "/save/{blog_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void saveBlog(@Valid @RequestBody Comment comment, @PathVariable UUID blog_id) {
@@ -52,7 +46,6 @@ public class CommentController {
         commentService.save(comment);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void saveComment(@Valid @RequestBody Comment comment) {
@@ -65,7 +58,6 @@ public class CommentController {
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteComment(@PathVariable UUID id) {

@@ -23,6 +23,7 @@ export default (props) => {
         setComment(emptyComment);
     }
     const handleEditComment = (blogId, comment) => {
+        console.log(comment)
         props.handleBlogIdHandle(blogId);
         setComment(comment);
     }
@@ -31,6 +32,8 @@ export default (props) => {
         deleteComment(id).then(() => {
             blog.comments = [...blog.comments].filter(c => c.id !== id);
             setBlog({...blog});
+        }).catch(e => {
+            console.log(e)
         });
     }
 
@@ -45,10 +48,10 @@ export default (props) => {
                     <p>{c.user.username}</p>
                     <span>{c.text}</span>
                     {
-
-                            user &&
-                            (user['id'] === c.user.id
-                            || user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")
+                        user &&
+                        (
+                            user['id'] === c.user.id ||
+                            user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")[0]
                         )
                         &&
                         <Actions

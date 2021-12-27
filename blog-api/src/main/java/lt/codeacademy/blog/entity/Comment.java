@@ -28,7 +28,7 @@ public class Comment {
     @NotNull
     @NotBlank(message="{lt.blog.notBlank}")
     @Column(columnDefinition="TEXT", nullable = false)
-    @Size(min = 3, max = 200)
+    @Size(min = 3, max = 200, message="{lt.blog.minMaxComment}")
     private String text;
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

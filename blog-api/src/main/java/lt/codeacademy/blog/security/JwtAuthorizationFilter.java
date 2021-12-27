@@ -25,7 +25,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String authorization = request.getHeader("Authorization");
-        System.out.println(authorization);
         if (authorization == null || authorization.isBlank() || !authorization.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;

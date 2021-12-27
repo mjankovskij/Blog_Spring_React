@@ -17,10 +17,15 @@
   "Update": "Atnaujinti",
   "Reset": "Išvalyti",
   "Author": "Autorius",
-  "Blog saved successfully.": "Išsaugota sėkmingai.",
+  "Saved successfully.": "Išsaugota sėkmingai.",
   "Edit": "Redaguoti",
   "Delete": "Ištrinti",
   "Comment": "Komentaras",
   "To Comment": "Komentuoti",
-  "Hi": "Labas"
+  "Hi": "Labas",
+  "Bad Credentials": "Neteisingi prisijungimo duomenys",
+  "Delete blog": "Ištrinti blogą",
+  "The action cannot be undone!": "Veiksmas negalės būti atšauktas!",
+  "Confirm": "Patvirtinti",
+  "Cancel": "Atšaukti"
 }

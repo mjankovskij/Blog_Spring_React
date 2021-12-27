@@ -2,9 +2,6 @@ import React, {useState} from 'react';
 import {Box, FormControl, Button, TextField} from '@mui/material';
 import {loginProcess} from "../../api/userApi";
 import {useTranslation} from "react-i18next";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {addUser} from "../../blog/slice/userSlice";
 
 export default () => {
     const {t} = useTranslation();
@@ -15,34 +12,28 @@ export default () => {
 
     const [user, setUser] = useState(emptyUser);
     const [errors, setErrors] = useState([]);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const target = e.target;
         const value = target.value;
         const id = target.id;
 
-        let input = emptyUser;
+        let input = user;
         input[id] = value;
         setUser(input);
     }
 
     const handleSubmit = (e) => {
-        console.log("LOGin")
-        e.preventDefault();
         const errorsNew = [];
+        e.preventDefault();
         loginProcess(user)
             .then(({data, headers}) => {
                 data["token"] = headers.authorization;
                 sessionStorage.setItem('Authorization', JSON.stringify(data));
                 window.location.href = "/";
             })
-            .catch(error => {
-                    console.log(error.response.data)
-                    for (let key of Object.keys(error.response.data)) {
-                        errorsNew[key] = error.response.data[key];
-                    }
+            .catch(() => {
+                errorsNew["password"] = [t("Bad Credentials")];
                     setErrors(errorsNew);
                 }
             );

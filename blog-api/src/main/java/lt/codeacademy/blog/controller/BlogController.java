@@ -6,7 +6,6 @@ import lt.codeacademy.blog.service.BlogService;
 import lt.codeacademy.blog.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,6 @@ public class BlogController {
         return blogService.getById(id);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void saveBlog(@Valid @RequestBody Blog blog) {
@@ -47,14 +45,12 @@ public class BlogController {
         blogService.save(blog);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void updateBlog(@Valid @RequestBody Blog blog) {
         blogService.save(blog);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBlog(@PathVariable UUID id) {

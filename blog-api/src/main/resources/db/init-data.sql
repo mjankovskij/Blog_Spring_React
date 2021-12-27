@@ -1,10 +1,14 @@
 INSERT INTO Users(id, username, password)
-VALUES ('26d6b7e7-0935-4292-ba9a-b590bd82f85b', 'admin', '{bcrypt}$2a$10$jYIbAef1H7S.womsk7MRtOCSEx/DgM7CZ1nNeLLzoZ/OPs0a25DV2'),
-       ('372a262b-f482-4b96-9848-7fa8977c1456', 'user', '{bcrypt}$2a$10$jYIbAef1H7S.womsk7MRtOCSEx/DgM7CZ1nNeLLzoZ/OPs0a25DV2');
+VALUES ('26d6b7e7-0935-4292-ba9a-b590bd82f85b', 'admin', '{bcrypt}$2a$12$FnkswIFp.ga8/ELqiSysIuCQ2am/FYDsFHugq.YuA9mYBY/Tj3oYm'),
+       ('372a262b-f482-4b96-9848-7fa8977c1456', 'user', '{bcrypt}$2a$12$.9okfhxV6HoWb1qvYkxnc.m4tszvnKPopl0GrGARiwWyZ279.k.mK');
 
-INSERT INTO Roles(id, name, user_id)
-VALUES ('6c9993bc-a831-42da-9f04-8c78584acb7a', 'ROLE_ADMIN', '26d6b7e7-0935-4292-ba9a-b590bd82f85b'),
-       ('d357164c-bb5e-40f3-b594-c74cefa5ced1', 'ROLE_USER', '372a262b-f482-4b96-9848-7fa8977c1456');
+INSERT INTO Roles(id, name)
+VALUES ('60dbb7bb-99a0-42eb-a837-8be6b697c074', 'ADMIN'),
+       ('3906c549-44bf-494b-9537-5e1658a029a8', 'USER');
+
+INSERT INTO users_roles(user_id, roles_id)
+VALUES ('26d6b7e7-0935-4292-ba9a-b590bd82f85b', '60dbb7bb-99a0-42eb-a837-8be6b697c074'),
+       ('372a262b-f482-4b96-9848-7fa8977c1456', '3906c549-44bf-494b-9537-5e1658a029a8');
 
 INSERT INTO Blogs(id, datetime, title, description, user_id)
 VALUES ('0342d18f-9ea2-4dd9-ba00-a47e997a144d', '2021-11-18 16:37:12', 'Straipsnis – analitinis žurnalistikos žanras', 'Paprastai žurnalistikoje straipsniai skirstomi į:

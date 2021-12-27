@@ -7,7 +7,6 @@ import React, {useEffect, useState} from "react";
 import {styled} from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import {useTranslation} from "react-i18next";
-import {useSelector} from "react-redux";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -97,7 +96,8 @@ export default (props) => {
                 {
                     (props.isAuthor
                         || user.username
-                        && user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0])
+                        && user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")[0]
+                    )
                     &&
                     <MenuItem onClick={handleDelete} disableRipple>
                         <DeleteForeverIcon/>

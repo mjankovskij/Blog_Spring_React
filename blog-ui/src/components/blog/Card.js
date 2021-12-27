@@ -41,7 +41,7 @@ export default (props) => {
                     {dateTimeFormat(blog.datetime)}</p>
                 {
                     user
-                    && user["roles"].map(e => e.name === "ROLE_ADMIN" || e.name === "ADMIN")[0]
+                    && user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")[0]
                     &&
                     <div className="actions">
                         <Actions

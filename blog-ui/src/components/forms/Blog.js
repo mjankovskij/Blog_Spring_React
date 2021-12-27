@@ -4,7 +4,7 @@ import {saveBlog} from "../../api/blogApi";
 import {useTranslation} from "react-i18next";
 
 export default (props) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const [blog, setBlog] = useState(props.blog);
     const [errors, setErrors] = useState([]);
@@ -14,6 +14,7 @@ export default (props) => {
         props.handleInputBlog();
         setErrors([]);
     }
+
     const handleInput = (e) => {
         const target = e.target;
         const value = target.value;
@@ -35,12 +36,15 @@ export default (props) => {
                 }
             )
             .catch(error => {
-                console.log(error)
-                console.log(error.response.headers)
-                    for (let key of Object.keys(error.response.data)) {
-                        errorsNew[key] = error.response.data[key];
+                    if (error.response.status === 401) {
+                        sessionStorage.removeItem('Authorization');
+                        window.location.href = '/';
+                    } else {
+                        for (let key of Object.keys(error.response.data)) {
+                            errorsNew[key] = error.response.data[key];
+                        }
+                        setErrors(errorsNew);
                     }
-                    setErrors(errorsNew);
                 }
             );
     }
@@ -103,7 +107,7 @@ export default (props) => {
             </FormControl>
             {created &&
             <div className="success-response">
-                {t("Blog saved successfully.")}
+                {t("Saved successfully.")}
             </div>}
             <Button type="submit"
                     variant="contained"
@@ -112,25 +116,25 @@ export default (props) => {
             >
                 {blog.id ? t("Update") : t("Create")}
             </Button>
-            { !props.updateCancel && (props.blog.id || props.blog.title || props.blog.description) &&
-                <Button type="submit"
-                        variant="contained"
-                        sx={{mt: 1.5, ml: 2}}
-                        color="inherit"
-                        onClick={handleReset}
-                >
-                    {t("Reset")}
-                </Button>
+            {!props.updateCancel && (props.blog.id || props.blog.title || props.blog.description) &&
+            <Button type="submit"
+                    variant="contained"
+                    sx={{mt: 1.5, ml: 2}}
+                    color="inherit"
+                    onClick={handleReset}
+            >
+                {t("Reset")}
+            </Button>
             }
             {props.updateCancel &&
-                <Button type="submit"
-                        variant="contained"
-                        color="warning"
-                        sx={{mt: 1.5, ml: 2}}
-                        onClick={props.updateCancel}
-                >
-                    Cancel
-                </Button>
+            <Button type="submit"
+                    variant="contained"
+                    color="warning"
+                    sx={{mt: 1.5, ml: 2}}
+                    onClick={props.updateCancel}
+            >
+                {t("Cancel")}
+            </Button>
             }
         </Box>
     )

@@ -1,7 +1,9 @@
 import React from "react";
 import {Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, Button} from '@mui/material';
+import {useTranslation} from "react-i18next";
 
 export default (props) => {
+    const {t} = useTranslation();
     return (
         <Dialog
             open={props.open}
@@ -13,7 +15,7 @@ export default (props) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    The action cannot be undone!
+                    {t("The action cannot be undone!")}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -22,14 +24,14 @@ export default (props) => {
                     color="inherit"
                     onClick={() => props.handleConfirm(false)}
                 >
-                    Cancel
+                    {t("Cancel")}
                 </Button>
                 <Button
                     variant="contained"
                     onClick={() => props.handleConfirm(true)}
                     autoFocus
                 >
-                    Confirm
+                    {t("Confirm")}
                 </Button>
             </DialogActions>
         </Dialog>

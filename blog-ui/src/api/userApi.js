@@ -1,5 +1,4 @@
 import HTTP from "./index";
-import Cookies from 'js-cookie';
 
 const headers = {
     'Accept': 'application/json',

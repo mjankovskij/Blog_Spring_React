@@ -2,12 +2,9 @@ import React, {useEffect, useState} from 'react';
 import BlogForm from "../components/forms/Blog";
 import {Box, CircularProgress, Container, Pagination} from '@mui/material';
 import {deleteBlog, getBlogs} from "../api/blogApi";
-import {getUser} from "../api/userApi";
-import {useTranslation} from "react-i18next";
 import Dialog from "../components/blog/Dialog";
 import BlogCard from "../components/blog/Card";
-import {useSelector} from "react-redux";
-
+import {useTranslation} from "react-i18next";
 
 export default () => {
     const {t} = useTranslation();
@@ -58,7 +55,7 @@ export default () => {
         setBlog(data);
     }
 
-    const messageDelete = `Delete blog "${removable && removable.title}"?`;
+    const messageDelete = `${t("Delete blog")} "${removable && removable.title}"?`;
 
     const handlePage = (event, value) => {
         if (page !== value) {
@@ -88,7 +85,7 @@ export default () => {
                     <>
                         {
                             user
-                            && user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")
+                            && user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")[0]
                             && <BlogForm blog={{...blog}} handleInputBlog={handleInputBlog}/>
                         }
                         {blogs.slice((page - 1) * itemsPage, page * itemsPage).map((blog) => (

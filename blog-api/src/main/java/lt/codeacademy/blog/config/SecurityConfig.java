@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf() //cross-site request forgery
+                .csrf()
                 .disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // without session
@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/blog/get", "/blog/get/*").permitAll()
                 .antMatchers("/comment/get/*").permitAll()
                 .antMatchers("/user/register").permitAll()
+                .antMatchers("/blog/save", "/blog/delete/*").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -47,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtService))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtService))
-
         ;
     }
 

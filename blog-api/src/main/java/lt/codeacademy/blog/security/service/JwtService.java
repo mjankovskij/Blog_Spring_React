@@ -53,8 +53,6 @@ public class JwtService {
 
             String userName = body.getSubject();
 
-            System.out.println(body.get("roles"));
-
             List<SimpleGrantedAuthority> roles = ((List<String>)body.get("roles")).stream().map(SimpleGrantedAuthority::new).toList();
 
             return new UsernamePasswordAuthenticationToken(userName, null, roles);
