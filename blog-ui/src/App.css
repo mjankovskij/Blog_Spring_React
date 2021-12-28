@@ -3,7 +3,7 @@
 }
 
 body {
-    padding-top: 70px;
+    padding-top: 78px;
 }
 
 header {
@@ -162,6 +162,15 @@ ul.invalid-helper {
     padding: 10px;
 }
 
+.error-response {
+    margin-top: 10px;
+    background: rgba(232, 4, 4, 0.2);
+    border: solid 1px rgba(182, 11, 11, 0.2);
+    color: #000;
+    border-radius: 5px;
+    padding: 10px;
+}
+
 .is-valid {
     background: red !important;
     padding: 50px !important;
@@ -189,6 +198,10 @@ ul.invalid-helper {
 
 .card-footer .comment:first-of-type{
     margin-top: 13px;
+}
+
+.MuiContainer-root{
+    min-height: 80vh;
 }
 
 @media only screen and (max-width: 600px) {

@@ -85,6 +85,12 @@ export default () => {
                             && user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")[0]
                             && <BlogForm blog={{...blog}} handleInputBlog={handleInputBlog}/>
                         }
+                        {
+                            !blogs.length &&
+                            <div className="error-response">
+                                {t("Blog is empty.")}
+                            </div>
+                        }
                         {blogs.slice((page - 1) * itemsPage, page * itemsPage).map((blog) => (
                             <BlogCard
                                 editHandle={editHandle}

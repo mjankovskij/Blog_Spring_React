@@ -56,7 +56,6 @@ export default (props) => {
     return (
         <Box onChange={handleInput}
              sx={{
-                 mt: 2,
                  p: 2,
                  borderRadius: 1,
                  border: "solid 1px #d5d5d5",

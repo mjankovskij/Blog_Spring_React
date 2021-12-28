@@ -23,7 +23,7 @@ export default (props) => {
         props.deleteHandle(null, data);
     }
 
-    return (<Card sx={{mt: 3}}>
+    return (<Card sx={{mt: props.single ? 0 : 3}}>
         <CardContent className="card-head">
             <Typography variant="body2" component={'span'}>
                 {
