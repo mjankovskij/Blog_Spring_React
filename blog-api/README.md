@@ -1,4 +1,4 @@
-# Blog WEB App
+# Blog API (Spring)
 
 ## Start App
 1. Copy repository
