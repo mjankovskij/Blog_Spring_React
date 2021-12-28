@@ -44,6 +44,7 @@ export default (props) => {
 
     return (
         <div className="card-footer">
+            <p className="totalComments">{t("Total comments")}: {blog.comments.length}</p>
             {blog.comments.map((c) => (
                 <div className="comment" key={c.id}>
                     <p>{c.user.username}</p>

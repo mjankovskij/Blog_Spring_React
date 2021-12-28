@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -63,10 +64,13 @@ public class CommentController {
     public void deleteComment(@PathVariable UUID id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
-//        if (!user.getRoles().stream().findFirst().get().getName().equals("ROLE_ADMIN") && id != null && user != commentService.getById(id).getUser()) {
-//            throw new AccessDeniedException("Access is denied!");
-//        } else {
+        if (
+                Objects.requireNonNull(user.getRoles().stream().findFirst().orElse(null)).getName().equals("ADMIN") ||
+                        user == commentService.getById(id).getUser()
+        ) {
             commentService.delete(id);
-//        }
+        } else {
+            throw new AccessDeniedException("Access is denied!");
+        }
     }
 }
