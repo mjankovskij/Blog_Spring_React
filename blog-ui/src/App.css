@@ -2,10 +2,6 @@
     scroll-behavior: unset;
 }
 
-/*html{*/
-/*    scroll-behavior: auto !important;*/
-/*}*/
-
 body {
     padding-top: 70px;
 }
@@ -24,7 +20,6 @@ header {
     width: 100vw;
     height: 100vh;
 }
-
 
 .auth-box {
     z-index: 2 !important;
@@ -54,7 +49,6 @@ header .navbar .nav-item svg:hover {
     background: #f6f6f6;
     padding-bottom: 1px !important;
     position: relative;
-
 }
 
 .card-head .actions {
@@ -70,7 +64,6 @@ header .navbar .nav-item svg:hover {
     color: #d5d4d4;
     min-width: 24px !important;
 }
-
 
 .card-head button:hover {
     color: #595959;
@@ -97,10 +90,8 @@ header .navbar .nav-item svg:hover {
 .card-text-full {
     text-align: justify;
     white-space: pre-line;
-    word-break: break-all;
     width: 100%;
 }
-
 
 .card-footer {
     background: #f6f6f6;
@@ -108,7 +99,6 @@ header .navbar .nav-item svg:hover {
     padding: 10px;
     padding-bottom: 15px !important;
 }
-
 
 .card-footer .comment {
     padding-top: 5px;

@@ -4,7 +4,6 @@ import Actions from "./Actions";
 import CommentForm from "../forms/Comment";
 import {useTranslation} from "react-i18next";
 import {deleteComment} from "../../api/commentApi";
-import {useSelector} from "react-redux";
 
 export default (props) => {
     const {t} = useTranslation();
@@ -19,12 +18,11 @@ export default (props) => {
     const user = JSON.parse(sessionStorage.getItem('Authorization'));
 
     const handleCommentStart = (blogId) => {
-        props.handleBlogIdHandle(blogId);
+        props.handleBlogId(blogId);
         setComment(emptyComment);
     }
     const handleEditComment = (blogId, comment) => {
-        console.log(comment)
-        props.handleBlogIdHandle(blogId);
+        props.handleBlogId(blogId);
         setComment(comment);
     }
 
@@ -32,8 +30,11 @@ export default (props) => {
         deleteComment(id).then(() => {
             blog.comments = [...blog.comments].filter(c => c.id !== id);
             setBlog({...blog});
-        }).catch(e => {
-            console.log(e)
+        }).catch(error => {
+            if (error.response.status === 401) {
+                sessionStorage.removeItem('Authorization');
+                window.location.href = '/';
+            }
         });
     }
 

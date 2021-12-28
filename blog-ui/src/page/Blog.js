@@ -27,7 +27,7 @@ export default () => {
     useEffect(() => {
         getBlog(emptyBlog.id)
             .then(({data}) => setBlog(data))
-            .catch(error => document.location.href = "/")
+            .catch(() => document.location.href = "/")
             .finally(() => setLoading(false));
     }, [])
 
@@ -63,11 +63,12 @@ export default () => {
         setUpdate(false);
     }
 
-    const messageDelete = `Delete blog "${removable && removable.title}"?`;
+    const messageDelete = `${t("Delete blog")} "${removable && removable.title}"?`;
 
-    const handleBlogIdHandle = (id) => {
+    const handleBlogId = (id) => {
         setBlogId(id);
     }
+
     return (
         <Container>
             <Dialog open={open} description={messageDelete} handleConfirm={handleConfirm}/>
@@ -89,8 +90,9 @@ export default () => {
                                 blog={blog}
                                 deleteHandle={handleConfirm}
                                 blogId={blogId}
-                                handleBlogIdHandle={handleBlogIdHandle}
+                                handleBlogId={handleBlogId}
                                 key={blog.id}
+                                single={true}
                             />
                         }
                     </>

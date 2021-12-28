@@ -18,11 +18,9 @@ export default () => {
     const [blogs, setBlogs] = useState([]);
     const user = JSON.parse(sessionStorage.getItem('Authorization'));
     const [page, setPage] = React.useState(1);
-
     const [blogId, setBlogId] = useState(null);
     const [blog, setBlog] = useState(emptyBlog);
     const [removable, setRemovable] = useState(null);
-
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
 
@@ -30,7 +28,6 @@ export default () => {
     useEffect(() => {
         getBlogs()
             .then(({data}) => setBlogs(data))
-            .catch(error => console.log(error))
             .finally(() => setLoading(false));
     }, [])
 
@@ -66,12 +63,12 @@ export default () => {
 
     const removeHandle = () => {
         deleteBlog(removable.id).then(() => {
-            let blogsCleaned = [...blogs].filter(i => i.id !== removable.id);
+            const blogsCleaned = [...blogs].filter(i => i.id !== removable.id);
             setBlogs(blogsCleaned);
         });
     }
 
-    const handleBlogIdHandle = (id) =>{
+    const handleBlogId = (id) =>{
         setBlogId(id);
     }
 
@@ -94,7 +91,7 @@ export default () => {
                                 blog={blog}
                                 deleteHandle={handleConfirm}
                                 blogId={blogId}
-                                handleBlogIdHandle={handleBlogIdHandle}
+                                handleBlogId={handleBlogId}
                                 key={blog.id}
                             />
                         ))}
