@@ -4,6 +4,7 @@ import Actions from "./Actions";
 import CommentForm from "../forms/Comment";
 import {useTranslation} from "react-i18next";
 import {deleteComment} from "../../api/commentApi";
+import {getBlog} from "../../api/blogApi";
 
 export default (props) => {
     const {t} = useTranslation();

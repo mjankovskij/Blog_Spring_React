@@ -32,7 +32,6 @@ export default (props) => {
                 }
             )
             .catch(error => {
-                    console.log(error.response)
                     if (error.response.status === 401) {
                         sessionStorage.removeItem('Authorization');
                         window.location.href = '/';
@@ -53,7 +52,6 @@ export default (props) => {
     return (
         <Box onChange={handleInput}
         >
-
             {created ?
                 <div className="success-response">
                     {t("Saved successfully.")}

@@ -87,13 +87,13 @@ export default () => {
                             )
                             :
                             <BlogCard
-                                editHandle={editHandle}
                                 blog={blog}
-                                deleteHandle={handleConfirm}
                                 blogId={blogId}
-                                handleBlogId={handleBlogId}
                                 key={blog.id}
                                 single={true}
+                                editHandle={editHandle}
+                                deleteHandle={handleConfirm}
+                                handleBlogId={handleBlogId}
                             />
                         }
                     </>
