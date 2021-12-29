@@ -32,7 +32,7 @@ export default (props) => {
                 }
             )
             .catch(error => {
-                console.log(error.response)
+                    console.log(error.response)
                     if (error.response.status === 401) {
                         sessionStorage.removeItem('Authorization');
                         window.location.href = '/';

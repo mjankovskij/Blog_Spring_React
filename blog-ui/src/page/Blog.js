@@ -82,7 +82,8 @@ export default () => {
                                 user
                                 && user["roles"].map(r => r === "ROLE_ADMIN" || r === "ADMIN")[0]
                                 &&
-                                <BlogForm blog={{...tempBlog}} handleInputBlog={handleInputBlog} updateCancel={updateCancel}/>
+                                <BlogForm blog={{...tempBlog}} handleInputBlog={handleInputBlog}
+                                          updateCancel={updateCancel}/>
                             )
                             :
                             <BlogCard

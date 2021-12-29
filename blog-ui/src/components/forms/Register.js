@@ -30,13 +30,13 @@ export default () => {
 
         registerProcess(user)
             .then(() => {
-                delete user.passwordRepeat;
-                loginProcess(user)
-                    .then(({data, headers}) => {
-                        data["token"] = headers.authorization;
-                        sessionStorage.setItem('Authorization', JSON.stringify(data));
-                        window.location.href = "/";
-                    })
+                    delete user.passwordRepeat;
+                    loginProcess(user)
+                        .then(({data, headers}) => {
+                            data["token"] = headers.authorization;
+                            sessionStorage.setItem('Authorization', JSON.stringify(data));
+                            window.location.href = "/";
+                        })
                 }
             )
             .catch(error => {

@@ -15,8 +15,8 @@ export default () => {
         description: ''
     };
 
-    const [blogs, setBlogs] = useState([]);
     const user = JSON.parse(sessionStorage.getItem('Authorization'));
+    const [blogs, setBlogs] = useState([]);
     const [page, setPage] = React.useState(1);
     const [blogId, setBlogId] = useState(null);
     const [blog, setBlog] = useState(emptyBlog);
@@ -68,7 +68,7 @@ export default () => {
         });
     }
 
-    const handleBlogId = (id) =>{
+    const handleBlogId = (id) => {
         setBlogId(id);
     }
 
@@ -101,13 +101,13 @@ export default () => {
                                 key={blog.id}
                             />
                         ))}
-                        { blogs.length > itemsPage &&
-                            <Pagination
-                                sx={{display: 'flex', justifyContent: 'center', mt: 3}}
-                                count={Math.ceil(blogs.length / itemsPage)}
-                                page={page}
-                                onChange={handlePage}
-                            />
+                        {blogs.length > itemsPage &&
+                        <Pagination
+                            sx={{display: 'flex', justifyContent: 'center', mt: 3}}
+                            count={Math.ceil(blogs.length / itemsPage)}
+                            page={page}
+                            onChange={handlePage}
+                        />
                         }
                     </>
             }

@@ -33,7 +33,7 @@ export default () => {
                 window.location.href = "/";
             })
             .catch(() => {
-                errorsNew["password"] = [t("Bad Credentials")];
+                    errorsNew["password"] = [t("Bad Credentials")];
                     setErrors(errorsNew);
                 }
             );
