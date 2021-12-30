@@ -46,7 +46,7 @@ public class BlogController {
     }
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateBlog(@Valid @RequestBody Blog blog) {
         blogService.save(blog);
     }
