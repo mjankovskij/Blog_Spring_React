@@ -23,7 +23,7 @@ header {
 
 .auth-box {
     z-index: 2 !important;
-    margin-top: -30px !important;
+    margin-top: -38px !important;
     right: 0 !important;
     background: #fff;
     padding: 10px;
@@ -206,7 +206,7 @@ ul.invalid-helper {
 
 @media only screen and (max-width: 600px) {
     .auth-box {
-        margin-top: -38px !important;
+        margin-top: -46px !important;
         border-bottom-left-radius: 0;
     }
 
